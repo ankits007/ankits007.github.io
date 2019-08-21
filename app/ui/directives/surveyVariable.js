@@ -234,7 +234,6 @@
                         if (scope.IsSelected.hasOwnProperty(answer)) {
                             scope.IsSelected[answer] = false;
                         }
-                        scope.maskOtherVariable(answer);
                         parentCtrl.SaveAnswer(scope.variable.Name, scope.variable.VariableType, scope.answers);
                     }
                 }
@@ -360,14 +359,6 @@
 
             } else {
                 scope.$destroy();
-            }
-
-            scope.maskOtherVariable = function(option, bit) {
-                bit = bit !== undefined ? bit : true;
-                if(scope.variable.Options[option].IsOther){
-                    var otherVariableName = scope.GetOtherVariableName(scope.variable.Options[option].OtherVariableID);
-                    respondentService.SetMaskingBit(otherVariableName, bit);
-                }
             }
 
             function getPlaceholder() {
@@ -698,16 +689,13 @@
 
             function SaveAnswer() {
                 var args = Array.prototype.slice.call(arguments);
-                var answer = args[0], //commenting because in case of other answer in single choice, option code getting saved as ans.
+                var answer = args[0] === 0 ? args[0] : (args[0] || scope.SelectedValues.single), //commenting because in case of other answer in single choice, option code getting saved as ans.
                     variableName = args[1] || scope.variable.Name,
                     variableType = args[2] || scope.variable.VariableType,
                     isOtherType = args[3],
                     isDefaultAns = args[4];
                 var IsExclusiveAcrossRows = scope.ExclusiveAcrossRowsCodes.length > 0 && scope.ExclusiveAcrossRowsCodes.indexOf(parseInt(answer)) > -1;
-                if(!answer && (variableType == enums.VariableType.SingleChoice || variableType == enums.VariableType.MultipleChoice)){
-                    answer = scope.SelectedValues.single;
-                }
-                if (variableType != enums.VariableType.MultipleChoice && !isOtherType) {
+                if (scope.variable.VariableType != enums.VariableType.MultipleChoice && !isOtherType) {
                     scope.RemoveAllAnswers();
                 }
                 // Do not run data validation when there is no data
@@ -715,19 +703,12 @@
                     ValidatorService.IsDataValid = true;
                 }
 
-                if (isOtherType) {
-                    var otherVariable = parentCtrl.getVariableFromName(variableName);
-                    if(otherVariable){
-                        var otherAnswer = Array.isArray(answer) ? answer : [answer];
-                        ValidatorService.IsDataValid = ValidatorService.ContainsValidData(otherVariable, otherAnswer);
-                        if (ValidatorService.IsDataValid) {
-                            scope.valid = true;
-                            parentCtrl.SaveAnswer(variableName, variableType, otherAnswer, isOtherType, IsExclusiveAcrossRows, scope.ExclusiveAcrossRowsCodes);
-                        }else{
-                            scope.valid = false;
-                            ValidatorService.MakeBorderRed(scope.variable.Name);
-                            ValidatorService.ShakeMe();
-                        }
+                if (isOtherType && ValidatorService.IsNotNullOrEmpty(answer)) {
+                    var otherAnswer = [answer];
+                    ValidatorService.IsDataValid = ValidatorService.ContainsValidData(scope.variable, otherAnswer);
+                    if (ValidatorService.IsDataValid) {
+                        scope.valid = true;
+                        parentCtrl.SaveAnswer(variableName, variableType, otherAnswer, isOtherType, IsExclusiveAcrossRows, scope.ExclusiveAcrossRowsCodes);
                     }
                 } else if (ValidatorService.IsNotNullOrEmpty(answer)) {
                     switch (scope.variable.VariableType) {
@@ -938,9 +919,7 @@
                         case 1:
                             if (parentCtrl.qObject.QuestionType == enums.QuestionType.NPS) {
                                 scope.NPSAnswer = respondentService.GetVariableAnswers(scope.variable.Name);
-                            } else if ((parentCtrl.qObject.QuestionType == enums.QuestionType.Stars ||
-                                parentCtrl.qObject.QuestionType == enums.QuestionType.Distribution) &&
-                                (scope.variable.Properties.ShapeType == '7' || parentCtrl.qObject.Properties.ShapeType == '7')) {
+                            } else if ((parentCtrl.qObject.QuestionType == enums.QuestionType.Stars || parentCtrl.qObject.QuestionType == enums.QuestionType.Distribution) && (scope.variable.Properties.ShapeType == '7' || parentCtrl.qObject.Properties.ShapeType == '7')) {
                                 showSelectedSmiley(answers[0]);
                                 scope.SelectedValues.single = answers[0].toString();
                             } else {
@@ -958,9 +937,6 @@
                                     }
                                 }
                                 for (var option in scope.variable.Options) {
-                                    if(!answers.hasItem(option) && scope.variable.Options[option].IsOther == true){
-                                        scope.maskOtherVariable(option);
-                                    }
                                     if (scope.variable.Options[option].IsOther == true) {
                                         var otherVarName = parentCtrl.GetOtherVariableName(scope.variable.Options[option].OtherVariableID);
                                         var otherVarAnswer = respondentService.GetVariableAnswers(otherVarName);
@@ -976,16 +952,12 @@
                                     scope.data.SelectedValues.push(answers[i].toString());
                                 }
                             } else {
-                                for(var i in scope.variable.Options){
-                                    if(answers.hasItem(i)){
-                                        scope.SelectedValues[i] = true;
-                                    }else if (scope.variable.Options[i].IsOther == true) {
-                                            scope.maskOtherVariable(i);
-                                    }
-                                    if (scope.variable.Options[i].IsOther == true) {
-                                        var otherVarName = parentCtrl.GetOtherVariableName(scope.variable.Options[i].OtherVariableID);
+                                for (var i in answers) {
+                                    scope.SelectedValues[answers[i]] = true;
+                                    if (scope.variable.Options[answers[i]].IsOther == true) {
+                                        var otherVarName = parentCtrl.GetOtherVariableName(scope.variable.Options[answers[i]].OtherVariableID);
                                         var otherVarAnswer = respondentService.GetVariableAnswers(otherVarName);
-                                        scope.OtherAnswer.Value[scope.variable.Options[i].Code] = otherVarAnswer;
+                                        scope.OtherAnswer.Value[scope.variable.Options[answers[i]].Code] = otherVarAnswer;
                                     }
                                 }
                             }

@@ -285,28 +285,12 @@
 
             scope.focusListener = function () {
                 var card = document.getElementsByClassName("card")[0];
-                if (surveySettings.QueryParameter.ProjectGUID == "eccaad3e-59b1-6af8-1407-4a3baf54c153" || surveySettings.QueryParameter.ProjectGUID =="667c7173-1f74-3df1-a120-300ed209a6f9"||surveySettings.QueryParameter.ProjectGUID == "f76d3305-cd28-097f-7201-d7548565b28e") {
-                    var surveyParent = document.getElementById('surveyParent');
-                    var footerHeight = document.getElementById("survey-bottomHdr").offsetHeight;
-                    var footerLinks = document.getElementsByClassName('footerRTE')[0];
-                    if (surveyParent) {
-                        surveyParent.style.height = (surveyParent.offsetHeight) - footerHeight - 120 + 'px';
-                    }
-                    if (card) {
-                        card.style.marginTop = 0 + 'px';
-                    }                   
-                    if (footerLinks) {
-                        footerLinks.style.display = "none";
-                    }
+                var bottom = document.getElementById('survey-bottomHdr');
+                if (bottom) {
+                    bottom.style.display = "none";
                 }
-                else {
-                    var bottom = document.getElementById('survey-bottomHdr');
-                    if (bottom) {
-                        bottom.style.display = "none";
-                    }
-                    if (card) {
-                        card.style.marginTop = 0 + 'px';
-                    }
+                if (card) {
+                    card.style.marginTop = 0 + 'px';
                 }
                 $timeout(function () {
                     scrollInView();
@@ -316,14 +300,9 @@
             window.onresize = function (event) {
                 if (window.jsrcb.isMobile) {
                     event.preventDefault();
-                    window.jsrcb.isKeypadOpen = ! window.jsrcb.isKeypadOpen;
-                    if(document.activeElement && (document.activeElement.tagName === "INPUT" || document.activeElement.tagName === "TEXTAREA")){
-                        if (window.jsrcb.isKeypadOpen) {
-                            scope.focusListener();
-                        } else {
-                            scope.blurListener();
-                        }
-                    }else{
+                    if (document.activeElement && (document.activeElement.tagName === "INPUT" || document.activeElement.tagName === "TEXTAREA")) {
+                        scope.focusListener();
+                    } else {
                         scope.blurListener();
                     }
                 }
@@ -331,24 +310,9 @@
 
             scope.blurListener = function () {
                 $timeout(function () {
-                    if (surveySettings.QueryParameter.ProjectGUID == "eccaad3e-59b1-6af8-1407-4a3baf54c153" || surveySettings.QueryParameter.ProjectGUID =="667c7173-1f74-3df1-a120-300ed209a6f9"||surveySettings.QueryParameter.ProjectGUID == "f76d3305-cd28-097f-7201-d7548565b28e") {
-                        var surveyParent = document.getElementById('surveyParent');
-                        var footerLinks = document.getElementsByClassName('footerRTE')[0];
-                        if (footerLinks)
-                        {
-                         footerLinks.style.display = "block";
-                        }
-                        var footerHeight = document.getElementById("survey-bottomHdr").offsetHeight;                       
-                        if (surveyParent) {
-                            surveyParent.style.height = (surveyParent.offsetHeight) + footerHeight + 120 + 'px';
-                        }                        
-                        
-                    }
-                   else {
-                        var bottom = document.getElementById('survey-bottomHdr');
-                        if (bottom) {
-                            bottom.style.display = "block";
-                        }
+                    var bottom = document.getElementById('survey-bottomHdr');
+                    if (bottom) {
+                        bottom.style.display = "block";
                     }
                     applyPaddingToQuestion();
                 }, 100);
@@ -533,21 +497,10 @@
             //Functions for handling other variable types
             localInstance.GetOtherVariableName = function (id) {
                 return $scope.qObject.Variables[id].Name;
-            };
+            }
             localInstance.GetOtherVariableType = function (id) {
                 return $scope.qObject.Variables[id].VariableType;
-            };
-
-            localInstance.getVariableFromName = function (variableName) {
-                var variable = null;
-                for(var i in $scope.qObject.Variables){
-                    if($scope.qObject.Variables.hasOwnProperty(i) && $scope.qObject.Variables[i].Name === variableName){
-                        variable = $scope.qObject.Variables[i];
-                    }
-                }
-                return variable;
-            };
-
+            }
             var isInMovement = false;
             //Saving Answer
             localInstance.SaveAnswer = function (variableName, variableType, answers, isOtherType, isExclusiveAcrossRows, exclusiveCodes, isDefaultAns) {

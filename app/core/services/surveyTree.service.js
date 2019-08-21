@@ -944,10 +944,7 @@
             }
             var indexOfNode1 = flatQuestionIds.indexOf(node1);
             var indexOfNode2 = flatQuestionIds.indexOf(node2);
-            if (indexOfNode1 === -1) {
-                indexOfNode1 = 0;
-            }
-            if(indexOfNode2 === -1){
+            if (indexOfNode1 == -1 || indexOfNode2 == -1) {
                 return 0;
             }
             return Math.abs(indexOfNode1 - indexOfNode2) || 0;

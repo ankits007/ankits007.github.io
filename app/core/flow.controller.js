@@ -74,7 +74,6 @@
             $scope.showProgressBar = SurveySettings.ShowProgressBar();
             promises.push(RespondentService.load(SurveySettings.QueryParameter.ProjectGUID));
             promises.push(SurveyTreeService.load());
-            pageBuffer.setStartupPage();
             $q.all(promises).then(function (response) {
                 // Set Language when survey is resumed
                 var lang = r("CLang").GetValue();
@@ -108,6 +107,7 @@
                     // hit api
                     CommunicationService.HitApi(SurveySettings.GetSurveyLaunchApiPath());
                 }
+                pageBuffer.setStartupPage();
                 pageBuffer.updateSurveyTitle();
                 if (pageBuffer.isAuthEnabled()) {
                     pageBuffer.authView();
@@ -1120,12 +1120,11 @@
                     otherIndexes = [];
                 // If it contains Page Break then ignore page break.
                 // If logic present then ignore sequencer
-                // If question
                 for (var i = 0; i < nodesToSequence.length; i++) {
                     if (nodesToSequence[i].ObjectType === Enums.ObjectType.Script) {
                         return;
                     }
-                    if (nodesToSequence[i].IsFixed || nodesToSequence[i].SurveyObjectType === Enums.SurveyObjectType.PageBreak) {
+                    if (nodesToSequence[i].SurveyObjectType === Enums.SurveyObjectType.PageBreak) {
                         fixedIndexes.push(i);
                     } else {
                         otherIndexes.push(i);
@@ -1985,7 +1984,7 @@
                     $compile(container.contents())($scope);
 
                     var footerHeight = document.getElementById("survey-bottomHdr").offsetHeight;
-                    if (SurveySettings.QueryParameter.ProjectGUID == "eccaad3e-59b1-6af8-1407-4a3baf54c153" || SurveySettings.QueryParameter.ProjectGUID =="667c7173-1f74-3df1-a120-300ed209a6f9") { var headerHeight = 90 }
+                    if (SurveySettings.QueryParameter.ProjectGUID == "eccaad3e-59b1-6af8-1407-4a3baf54c153" || "667c7173-1f74-3df1-a120-300ed209a6f9") { var headerHeight = 90 }
                     else { var headerHeight = document.getElementById("hdr-Layout").offsetHeight; }
                     var pageHeight = document.getElementById("page").offsetHeight;
                     document.getElementById("surveyParent").style.height = pageHeight - headerHeight - footerHeight - 10 + 'px';
@@ -2488,10 +2487,9 @@
                     var base = SurveyTreeService.getMaxQuestions();
                     var progress = SurveyTreeService.getProgress();
                     // Submit button is Enabled then include last page in progress
-                    // if (SurveySettings.IsSubmitButtonEnabled()) {
-                    //     base += 1;
-                    // }
-                    base += 1;
+                    if (SurveySettings.IsSubmitButtonEnabled()) {
+                        base += 1;
+                    }
                     var percentage = parseInt((progress / base) * 100);
                     if (typeof $scope.progressBar.Callbacks.updateProgress == "function") {
                         $scope.progressBar.Callbacks.updateProgress(percentage);
@@ -2515,10 +2513,9 @@
                     var text = "";
                     var base = SurveyTreeService.getMaxQuestions();
                     // Submit button is Enabled then include last page in progress
-                    // if (SurveySettings.IsSubmitButtonEnabled()) {
-                    //     base += 1;
-                    // }
-                    base += 1;
+                    if (SurveySettings.IsSubmitButtonEnabled()) {
+                        base += 1;
+                    }
                     if (SurveySettings.ProgressBarType == Enums.ShowProgressAs.Percentage) {
                         text += 100 + "% ";
                     } else {

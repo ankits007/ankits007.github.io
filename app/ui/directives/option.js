@@ -23,9 +23,9 @@
             init();
 
             function init() {
-                // scope.otherVariableType = 3;
+               // scope.otherVariableType = 3;
                 if (scope.variable.Options[scope.OptionId].IsOther)
-                    scope.OtherVariableType[scope.OptionId] = scope.GetOtherVariableType(scope.variable.Options[scope.OptionId].OtherVariableID) == 4 ? "number" : "text";
+                    scope.OtherVariableType[scope.OptionId] = scope.GetOtherVariableType(scope.variable.Options[scope.OptionId].OtherVariableID) == 4? "number" : "text";
             }
 
             scope.SelectOption = function (Option) {
@@ -45,17 +45,9 @@
                     event.preventDefault();
                 }
                 scope.SelectedValues.single = scope.variable.Options[scope.OptionId].Code;
-                for(var i in scope.variable.Options){
-                    if(i != scope.OptionId && scope.variable.Options[i].IsOther){
-                        scope.maskOtherVariable(scope.variable.Options[i].Code);
-                    }
-                }
-                if(scope.variable.Options[scope.SelectedValues.single].IsOther){
-                    scope.maskOtherVariable(scope.SelectedValues.single, false);
-                }
                 if (scope.SelectedValues.single != null || scope.SelectedValues.single != undefined || scope.SelectedValues.single != '') {
                     scope.SaveAnswer(scope.SelectedValues.single, undefined, '', '', scope.variable.Options[scope.OptionId].IsOther);
-                    if (!scope.variable.Options[scope.OptionId].IsOther)
+                    if(!scope.variable.Options[scope.OptionId].IsOther)
                         scope.HideDropDown();
                 }
             }
@@ -81,11 +73,7 @@
             scope.saveOtherValue = function (option) {
                 scope.otherVariableType = scope.GetOtherVariableType(option.OtherVariableID);
                 var otherVariableName = scope.GetOtherVariableName(option.OtherVariableID);
-                scope.SaveAnswer(sanitizeEmptyValue(scope.OtherAnswer.Value[option.Code]), otherVariableName, scope.otherVariableType, true);
-            }
-
-            function sanitizeEmptyValue(value) {
-                return typeof value === 'string' ? (value.trim() === '' ? null : value) : value;
+                scope.SaveAnswer(scope.OtherAnswer.Value[option.Code], otherVariableName, scope.otherVariableType, true);
             }
         }
 

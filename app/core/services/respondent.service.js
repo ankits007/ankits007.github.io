@@ -462,7 +462,7 @@
                 }
                 vm.SaveAnswer(ansObject);
             }
-            respondent.Answers[variableName].Values = intersect(respondent.Answers[variableName].Values, dispVals).filter(function (d) {
+            respondent.Answers[variableName].Values = intersect(dispVals, respondent.Answers[variableName].Values).filter(function (d) {
                 return respondent.Answers[variableName].Values.hasItem(d);
             });
             respondent.Answers[variableName].DisplayedValues = dispVals;
@@ -709,7 +709,7 @@
                 return [];
 
             if (Array.isArray(this.Values)) {
-                return intersect(union(this.Values, addedCodes), this.DisplayedValues);
+                return intersect(this.DisplayedValues, union(this.Values, addedCodes));
             }
 
             return [];
@@ -1386,13 +1386,16 @@
         }
 
         function union(x, y) {
-            var union = x.slice();
-            for (var i = 0; i < y.length; i++) {
-                if (!union.hasItem(y[i])) {
-                    union.push(y[i]);
-                }
+            var obj = {};
+            for (var i = x.length - 1; i >= 0; --i)
+                obj[x[i]] = x[i];
+            for (var i = y.length - 1; i >= 0; --i)
+                obj[y[i]] = y[i];
+            var res = [];
+            for (var k in obj) {
+                res.push(obj[k]);
             }
-            return union;
+            return res;
         }
 
         function difference(array1, array2) {

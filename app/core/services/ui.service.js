@@ -214,14 +214,14 @@
             html += ' <div class="right-btn">' +
                 // Button for mobile
                 '<div ng-class="{\'disabled\' : Navigation.isBackDisabled}"  class="prev-next clickable mobilebtn" title="Previous" style="float:right" ng-click="GoBack()">' +
-                '<i class="icon icon-arrow-up"    ng-class="{\'rotate-left\' : \'' + SurveySettings.ArrowPosition + '\' ==\'leftRight\'}"></i>' +
+                '<i class="icon icon-arrow-up"   ng-class="{\'rotate-left\' : \'' + SurveySettings.QueryParameter.ProjectGUID + '\' ==\'1b887098-ced5-f1ac-3763-2ebf80cc5708\'}"></i>' +
                 '       </div>' +
                 // Buttom for Web
 
                 '<div ng-class="{\'disabled\' : Navigation.isBackDisabled}"  class="prev-next clickable webbtn" title="Previous" style="float:right" ng-click="GoBack()" >' +
-                '<i class="icon icon-arrow-up"   ng-class="{\'rotate-left visible\' : \'' + SurveySettings.ArrowPosition + '\' ==\'leftRight\',\'hidden\' : \'' + SurveySettings.ArrowPosition + '\' !=\'leftRight\'}" style="margin-left:5px;"></i>' +
-                 (SurveySettings.GetButtons()['Back'][SurveySettings.GetSurveyLanguage()] || SurveySettings.GetButtons()['Back'][SurveySettings.GetDefaultLanguage()]) +
-                '<i class="icon icon-arrow-up"   ng-class="{\'hidden\' : \'' + SurveySettings.ArrowPosition + '\' ==\'leftRight\'}" style="margin-left:5px;"></i>' +
+                '<i class="icon icon-arrow-up"   ng-class="{\'rotate-left visible\' : \'' + SurveySettings.QueryParameter.ProjectGUID + '\' ==\'1b887098-ced5-f1ac-3763-2ebf80cc5708\',\'hidden\' : \'' + SurveySettings.QueryParameter.ProjectGUID + '\' !=\'1b887098-ced5-f1ac-3763-2ebf80cc5708\'}" style="margin-left:5px;"></i>' +
+                (SurveySettings.GetButtons()['Back'][SurveySettings.GetSurveyLanguage()] || SurveySettings.GetButtons()['Back'][SurveySettings.GetDefaultLanguage()]) +
+                '<i class="icon icon-arrow-up"    ng-class="{\'hidden\' : \'' + SurveySettings.QueryParameter.ProjectGUID + '\' ==\'1b887098-ced5-f1ac-3763-2ebf80cc5708\'}" style="margin-left:5px;"></i>' +
                 '       </div>' +
                 '<span id="rebusLogo" ng-class="{\'invisible\' : ' + !SurveySettings.ShowRebusCloudLogo + '}"  class="display-inline-block border-radius invisible" style="float:right"><img src="assets/images/logo.png"/></span></div><div style="clear:both"></div>'
 
@@ -267,20 +267,20 @@
                 html += ' <div class="right-btn">' +
                     // Button for mobile
                     '       <div ng-class="{\'disabled\' : Navigation.isNextDisabled}" class="prev-next clickable mobilebtn" style="float:right" title="Next" ng-click="ValidateBeforeNext()" ng-class="{\'disabled\' : Navigation.isNextDisabled}">' +
-                    '<i class="icon icon-arrow-down" ng-class="{\'rotate-right\' : \'' + SurveySettings.ArrowPosition + '\' ==\'leftRight\'}"></i>' +
+                    '<i class="icon icon-arrow-down"  ng-class="{\'rotate-right\' : \'' + SurveySettings.QueryParameter.ProjectGUID + '\' ==\'1b887098-ced5-f1ac-3763-2ebf80cc5708\'}"></i>' +
                     '       </div>' +
                     '<div ng-class="{\'disabled\' : Navigation.isBackDisabled}"  class="prev-next clickable mobilebtn" title="Previous" style="float:right" ng-click="BroadcastBeforeBack()" ng-class="{\'disabled\' : Navigation.isBackDisabled}">' +
-                    '<i class="icon icon-arrow-up" ng-class="{\'rotate-left\' : \'' + SurveySettings.ArrowPosition + '\' ==\'leftRight\'}"></i>' +
+                    '<i class="icon icon-arrow-up"  ng-class="{\'rotate-left\' : \'' + SurveySettings.QueryParameter.ProjectGUID + '\' ==\'1b887098-ced5-f1ac-3763-2ebf80cc5708\'}"></i>' +
                     '       </div>' +
                     // Buttom for Web
                     '       <div ng-class="{\'disabled\' : Navigation.isNextDisabled}"  class="prev-next clickable webbtn" style="float:right" title="Next" ng-click="ValidateBeforeNext()" id="nxt-btn">' +
                     (SurveySettings.GetButtons()['Next'][SurveySettings.GetSurveyLanguage()] || SurveySettings.GetButtons()['Next'][SurveySettings.GetDefaultLanguage()]) +
-                    '<i class="icon icon-arrow-down"   ng-class="{\'rotate-left\' : \'' + SurveySettings.ArrowPosition + '\' ==\'leftRight\'}" style="margin-left:5px;"></i>' +
+                    '<i class="icon icon-arrow-down"   ng-class="{\'rotate-left\' : \'' + SurveySettings.QueryParameter.ProjectGUID + '\' ==\'1b887098-ced5-f1ac-3763-2ebf80cc5708\'}" style="margin-left:5px;"></i>' +
                     '       </div>' +
                     '<div ng-class="{\'disabled\' : Navigation.isBackDisabled}"  class="prev-next clickable webbtn" title="Previous" style="float:right" ng-click="BroadcastBeforeBack()" id="bck-btn">' +
-                    '<i class="icon icon-arrow-up"   ng-class="{\'rotate-left visible\' : \'' + SurveySettings.ArrowPosition + '\' ==\'leftRight\',\'hidden\' : \'' + SurveySettings.ArrowPosition + '\' !=\'leftRight\'}" style="margin-left:5px;"></i>' +
+                    '<i class="icon icon-arrow-up"   ng-class="{\'rotate-left visible\' : \'' + SurveySettings.QueryParameter.ProjectGUID + '\' ==\'1b887098-ced5-f1ac-3763-2ebf80cc5708\',\'hidden\' : \'' + SurveySettings.QueryParameter.ProjectGUID + '\' !=\'1b887098-ced5-f1ac-3763-2ebf80cc5708\'}" style="margin-left:5px;"></i>' +
                     (SurveySettings.GetButtons()['Back'][SurveySettings.GetSurveyLanguage()] || SurveySettings.GetButtons()['Back'][SurveySettings.GetDefaultLanguage()]) +
-                    '<i class="icon icon-arrow-up"   ng-class="{\'hidden\' : \'' + SurveySettings.ArrowPosition + '\' ==\'leftRight\'}" style="margin-left:5px;"></i>' +
+                    '<i class="icon icon-arrow-up"   ng-class="{\'hidden\' : \'' + SurveySettings.QueryParameter.ProjectGUID + '\' ==\'1b887098-ced5-f1ac-3763-2ebf80cc5708\'}" style="margin-left:5px;"></i>' +
                     '       </div>' +
                     '<span id="rebusLogo" ng-class="{\'invisible\' : ' + !SurveySettings.ShowRebusCloudLogo + '}"  class="display-inline-block border-radius invisible" style="float:right"><img src="assets/images/logo.png"/></span></div><div style="clear:both"></div>'
 
