@@ -1,0 +1,152 @@
+<div class="card center-div">
+    <!--Question Container-->
+    <div class="sq-container" error-tool-tip error-config="ErrorConfig">
+        <div ng-if="ShowQuestionNumber" class="sq-name table-cell">{{qObject.Name}}</div>
+        <div class="sq-text table-cell display-block">
+            <div ng-if="qObject.Properties.MediaPath">
+                <img image-on-load class="maxSize"
+                    ng-if="qObject.Properties.MediaType == '1' && (qObject.Properties.MediaPosition == 'up' ||  !qObject.Properties.MediaPosition) "
+                    ng-src="{{qObject.Properties.MediaPath}}" />
+                <audio controls class="maxSize"
+                    ng-if="qObject.Properties.MediaType == '2' && (qObject.Properties.MediaPosition == 'up' ||  !qObject.Properties.MediaPosition) "
+                       ng-src="{{qObject.Properties.MediaPath}}">
+                    <source ng-src="{{qObject.Properties.MediaPath | trusted}}" type="audio/mpeg">
+                </audio>
+                <video controls video-on-load class="maxSize"
+                    ng-if="qObject.Properties.MediaType == '3' && (qObject.Properties.MediaPosition == 'up' ||  !qObject.Properties.MediaPosition) ">
+                    <source ng-src="{{qObject.Properties.MediaPath | trusted}}" type="video/mp4">
+                </video>
+            </div>
+            <div ng-if="qObject.Text[language] != undefined" bind-html-compile="qObject.Text[language]"></div>
+            <div ng-if="qObject.Text[language] == undefined" bind-html-compile="qObject.Text[DefaultLanguage]"></div>
+            <div ng-if="qObject.Properties.MediaPath">
+                <img image-on-load class="maxSize"
+                     ng-if="qObject.Properties.MediaType == '1' && qObject.Properties.MediaPosition == 'down'"
+                     ng-src="{{qObject.Properties.MediaPath}}" />
+                <audio controls class="maxSize"
+                       ng-if="qObject.Properties.MediaType == '2' && qObject.Properties.MediaPosition == 'down'"
+                       ng-src="{{qObject.Properties.MediaPath}}">
+                    <source ng-src="{{qObject.Properties.MediaPath | trusted}}" type="audio/mpeg">
+                </audio>
+                <video controls video-on-load
+                       ng-if="qObject.Properties.MediaType == '3' && qObject.Properties.MediaPosition == 'down'">
+                    <source ng-src="{{qObject.Properties.MediaPath | trusted}}" type="video/mp4">
+                </video>
+            </div>
+        </div>
+    </div>
+    <div><span style="color: red" ng-if="ShowMandatoryStar" class="font-75"><b>* This field is mandatory</b></span>
+    </div>
+    <!--Variable Container-->
+    <div class="sv-container" layout="column">
+
+        <!--NPS-->
+        <survey-variable variable="qObject.Variables[qObject.QuestionLevelSequence[0].ID]" language="{{language}}">
+            <div layout="column">
+                <div layout="row" style="display: table;width:100%; border-spacing:5px"
+                    ng-if="!RatingQuestionConfig.ShapeType || RatingQuestionConfig.ShapeType == '8'">
+                    <span ng-if="!RatingQuestionConfig.ShapeType || RatingQuestionConfig.ShapeType == '8'"
+                        style="display: table-cell" id="{{value.Code}}" class="focusable nps-box pos-rel"
+                        ng-repeat="(option,value) in variable.Options"
+                        ng-click="SaveNPSAnswer(variable.Name,variable.VariableType,value.Code)"
+                        ng-class="{'nps-background' : NPSAnswer == value.Code, 'nps-shading': RatingQuestionConfig.Properties.NPSOptionColors == 'true'}">
+                        {{value.Code}}
+                        <div class="bg"></div>
+                    </span>
+                </div>
+                <div layout="row" style="display: table;border-spacing:5px"
+                    ng-if="(RatingQuestionConfig.ShapeType == '1' || RatingQuestionConfig.ShapeType == '6' )">
+                    <ul class="marginZero paddingZero display-inline-block" style="table-layout:fixed"
+                        ng-if="(RatingQuestionConfig.ShapeType == '1' || RatingQuestionConfig.ShapeType == '6' )">
+                        <li ng-if="(RatingQuestionConfig.ShapeType == '1' || RatingQuestionConfig.ShapeType == '6' )"
+                            id="{{value.Code}}" style="display: table-cell" ng-repeat="(option,value) in variable.Options"
+                            ng-click="SaveNPSAnswer(variable.Name,variable.VariableType,value.Code)"
+                            class="ratingShape shape-large focusable pos-rel"
+                            ng-class="{'smiley-big' :variable.VariableLevelSequence.length >= 8, 'smiley-small': variable.VariableLevelSequence.length < 8,'shape-small':properties.ShapeSize == 'small','shape-medium':properties.ShapeSize == 'medium','nps-star':RatingQuestionConfig.ShapeType == '1'}">
+                            <!-- Star Shape -->
+                            <div></div>
+                            <svg ng-model="SelectedValues.single" ng-if="RatingQuestionConfig.ShapeType == '1'"
+                                role="img" class="stkv-c-hoverable-icon stkv-us-secondary--fill rating-option-theme"
+                                viewBox="0 0 32 32"
+                                ng-class="{'svg-focus':OptionId <= hover.hoverID && hover.hoverID != ExclusiveId,'svg-filled blink': NPSAnswer == value.Code}">
+                                <svg width="32" height="32" viewBox="0 0 32 32"
+                                    class="stkv-c-hoverable-icon__svg stkv-c-hoverable-icon__svg--outline">
+                                    <path
+                                        d="M0 11.625h12.219q.469-1.469 1.422-4.375T16 0q.469 1.438 1.422 4.344t2.359 7.281H32q-1.219.875-3.688 2.672t-6.188 4.516q.469 1.438 1.406 4.359t2.344 7.266q-1.219-.906-3.688-2.703t-6.188-4.484q-1.219.906-3.688 2.703t-6.188 4.484Q6.591 29 7.528 26.079t2.344-7.266q-1.219-.906-3.688-2.703t-6.188-4.484zm3.938 1.25q.938.688 2.813 2.047t4.656 3.422q-.344 1.063-1.063 3.25t-1.813 5.469q.938-.656 2.813-2.016T16 21.656q.938.656 2.813 2.016t4.656 3.391q-.344-1.094-1.063-3.281t-1.813-5.438l2.813-2.063 4.656-3.406h-9.219q-.344-1.094-1.063-3.281t-1.781-5.469q-.344 1.094-1.063 3.281t-1.781 5.469H3.936z">
+                                    </path>
+                                </svg>
+                                <svg width="32" height="32" viewBox="0 0 32 32"
+                                    class="stkv-c-hoverable-icon__svg stkv-c-hoverable-icon__svg--hover stkv-us-secondary-color--fill20-hover stkv-us-secondary-color--fill-checked">
+                                    <path
+                                        d="M0,11.625h12.219c0.313-0.979,0.787-2.438,1.422-4.375S15.063,2.896,16,0c0.313,0.958,0.787,2.407,1.422,4.344  c0.635,1.937,1.422,4.364,2.359,7.281H32c-0.813,0.583-2.042,1.474-3.688,2.672c-1.646,1.198-3.709,2.703-6.188,4.516  c0.313,0.959,0.781,2.412,1.405,4.359c0.625,1.947,1.406,4.369,2.345,7.266c-0.813-0.604-2.042-1.504-3.688-2.703  c-1.646-1.197-3.708-2.691-6.188-4.483c-0.813,0.604-2.042,1.505-3.688,2.703s-3.708,2.692-6.188,4.483  c0.313-0.958,0.781-2.411,1.406-4.358c0.625-1.947,1.406-4.37,2.344-7.267C9.06,18.209,7.83,17.309,6.184,16.11  c-1.646-1.198-3.709-2.692-6.188-4.484L0,11.625z">
+                                    </path>
+                                </svg>
+                            </svg>
+                            <!-- Circle Shape -->
+                            <svg ng-if="RatingQuestionConfig.ShapeType == '6'" role="img"
+                                class="stkv-c-hoverable-icon stkv-us-secondary--fill npsCircle rating-option-theme"
+                                viewBox="0 0 32 32" ng-model="SelectedValues.single"
+                                ng-class="{'svg-focus':OptionId <= hover.hoverID && hover.hoverID != ExclusiveId,'svg-filled blink': NPSAnswer == value.Code}">
+                                <svg width="32" height="32" viewBox="0 0 73.25 74.5">
+                                    <circle fill="none" stroke="#d5d7d9" stroke-width="3" cx="36.25" cy="38.5" r="31">
+                                    </circle>
+                                </svg>
+
+                            </svg>
+                            <span class="ratingCircle-txt">
+                                <div>{{value.Code}}</div>
+                            </span>
+                        </li>
+                    </ul>
+                    <div ng-if="(RatingQuestionConfig.ShapeType == '1' || RatingQuestionConfig.ShapeType == '6' )"
+                        layout="row" style="display: table;width:99.5%" class="font-size">
+                        <span flex="50"
+                            ng-if="variable.Options[variable.VariableLevelSequence[0].ID].Text[Language] != undefined"
+                            class="display-inline-block survey-option-text" style="float:left;width: 50%;
+                            display: block;"
+                            bind-html-compile="variable.Options[variable.VariableLevelSequence[0].ID].Text[Language]"></span>
+                        <span flex="50"
+                            ng-if="variable.Options[variable.VariableLevelSequence[0].ID].Text[Language] == undefined"
+                            class="display-inline-block survey-option-text" style="float:left;width: 50%;
+                            display: block;"
+                            bind-html-compile="variable.Options[variable.VariableLevelSequence[0].ID].Text[DefaultLanguage]"></span>
+                        <span flex="50"
+                            ng-if="variable.Options[variable.VariableLevelSequence[variable.VariableLevelSequence.length - 1].ID].Text[Language] != undefined"
+                            class="text-right display-inline-block survey-option-text paddingZero" style="float:right;width: 50%;
+                            display: block;padding-right:0px;"
+                            bind-html-compile="variable.Options[variable.VariableLevelSequence[variable.VariableLevelSequence.length - 1].ID].Text[Language]"></span>
+                        <span flex="50"
+                            ng-if="variable.Options[variable.VariableLevelSequence[variable.VariableLevelSequence.length - 1].ID].Text[Language] == undefined"
+                            class="text-right display-inline-block survey-option-text paddingZero" style="float:right;width: 50%;
+                            display: block;padding-right:0px;"
+                            bind-html-compile="variable.Options[variable.VariableLevelSequence[variable.VariableLevelSequence.length - 1].ID].Text[DefaultLanguage]"></span>
+                    </div>
+                </div>
+            </div>
+            <div ng-if="!RatingQuestionConfig.ShapeType || RatingQuestionConfig.ShapeType == '8'" layout="row"
+                style="display: table;width:99.5%" class="padding-5 font-size">
+                <span flex="50"
+                    ng-if="variable.Options[variable.VariableLevelSequence[0].ID].Text[Language] != undefined"
+                    class="display-inline-block survey-option-text" style="float:left;width: 50%;
+                    display: block;"
+                    bind-html-compile="variable.Options[variable.VariableLevelSequence[0].ID].Text[Language]"></span>
+                <span flex="50"
+                    ng-if="variable.Options[variable.VariableLevelSequence[0].ID].Text[Language] == undefined"
+                    class="display-inline-block survey-option-text" style="float:left;width: 50%;
+                    display: block;"
+                    bind-html-compile="variable.Options[variable.VariableLevelSequence[0].ID].Text[DefaultLanguage]"></span>
+                <span flex="50"
+                    ng-if="variable.Options[variable.VariableLevelSequence[variable.VariableLevelSequence.length - 1].ID].Text[Language] != undefined"
+                    class="text-right display-inline-block survey-option-text paddingZero" style="float:right;width: 50%;
+                    display: block;padding-right:0px;"
+                    bind-html-compile="variable.Options[variable.VariableLevelSequence[variable.VariableLevelSequence.length - 1].ID].Text[Language]"></span>
+                <span flex="50"
+                    ng-if="variable.Options[variable.VariableLevelSequence[variable.VariableLevelSequence.length - 1].ID].Text[Language] == undefined"
+                    class="text-right display-inline-block survey-option-text paddingZero" style="float:right;width: 50%;
+                    display: block;padding-right:0px;"
+                    bind-html-compile="variable.Options[variable.VariableLevelSequence[variable.VariableLevelSequence.length - 1].ID].Text[DefaultLanguage]"></span>
+            </div>
+    </div>
+    </survey-variable>
+</div>
+</div>

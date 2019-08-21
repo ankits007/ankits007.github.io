@@ -1,0 +1,172 @@
+<table class="table grid-text-color">
+    <thead class="grid-width" ng-if="!(qObject.QuestionType == 8)">
+        <tr ng-class="{'grid-var-header font-75': $index == GridData.head.length-1}" ng-repeat="header in GridData.head">
+            <td></td>
+            <td ng-class="{'group-seperator': item.IsLastVariable || item.Property == 'Groups', 'grid-text-header': item.Property == 'Groups'}" colspan="{{item.Property == 'Groups'? qObject[item.Property][item.Id].VariableSequence.length : 1}}" ng-repeat="item in header" class="font-bold">
+
+                <span ng-if="item.Property == 'Attributes' && qObject[item.Property][item.Id].Media[language]"><img onError="this.onerror=null;this.src='./Project/app/Components/SE/assets/images/default.jpg';" ng-src="{{qObject[item.Property][item.Id].Media[language]}}" style="max-height:100px;max-width:100px;"/></span>
+                <span ng-if="(item.Property == 'Groups' || item.Property == 'Attributes') && qObject[item.Property][item.Id].Text[language] != undefined" bind-html-compile="qObject[item.Property][item.Id].Text[language]"></span>
+                <span ng-if="(item.Property == 'Groups' || item.Property == 'Attributes') && qObject[item.Property][item.Id].Text[language] == undefined" bind-html-compile="qObject[item.Property][item.Id].Text[DefaultLanguage]">
+                </span>
+
+                <div ng-switch="qObject[item.Property][item.Id].VariableType">
+                    <div ng-switch-when="1" class="grid-cat-head">
+                        
+                        <div grid-option-width ng-class="[OptionClass]" index="{{$index}}" class="grid-cat-headtext font-bold" ng-repeat="option in qObject[item.Property][item.Id].VariableLevelSequence" ng-if="qObject[item.Property][item.Id].Properties.ShowAs != '2'">
+                            <div ng-if="qObject[item.Property][item.Id].Options[option.ID].Text[language]" bind-html-compile="qObject[item.Property][item.Id].Options[option.ID].Text[language]"></div>
+                            <div ng-if="!qObject[item.Property][item.Id].Options[option.ID].Text[language]" bind-html-compile="qObject[item.Property][item.Id].Options[option.ID].Text[DefaultLanguage]"></div>
+                             
+                            <span ng-if="qObject[item.Property][item.Id].Options[option.ID].Media[language]"><img onError="this.onerror=null;this.src='./Project/app/Components/SE/assets/images/default.jpg';" ng-src="{{qObject[item.Property][item.Id].Options[option.ID].Media[language]}}" style="max-height:100px;max-width:100px;"/></span>
+                        </div>
+                    </div>
+                    <div ng-switch-when="2" class="grid-cat-head">
+                        
+                        <div grid-option-width ng-class="[OptionClass]" index="{{$index}}" class="grid-cat-headtext font-bold" ng-repeat="option in qObject[item.Property][item.Id].VariableLevelSequence">
+                            <div ng-if="qObject[item.Property][item.Id].Options[option.ID].Text[language] != undefined" bind-html-compile="qObject[item.Property][item.Id].Options[option.ID].Text[language]"></div>
+                            <div ng-if="qObject[item.Property][item.Id].Options[option.ID].Text[language] == undefined" bind-html-compile="qObject[item.Property][item.Id].Options[option.ID].Text[DefaultLanguage]"></div>
+                            <span ng-if="qObject[item.Property][item.Id].Options[option.ID].Media[language]"><img onError="this.onerror=null;this.src='./Project/app/Components/SE/assets/images/default.jpg';" ng-src="{{qObject[item.Property][item.Id].Options[option.ID].Media[language]}}" style="max-height:100px;max-width:100px;"/></span>
+                        </div>
+                    </div>
+                    <div ng-if="qObject[item.Property][item.Id].Text[language] != undefined" ng-switch-when="3" bind-html-compile="qObject[item.Property][item.Id].Text[language]">
+                    </div>
+                    <div ng-if="qObject[item.Property][item.Id].Text[language] == undefined" ng-switch-when="3" bind-html-compile="qObject[item.Property][item.Id].Text[DefaultLanguage]">
+                    </div>
+                    <div ng-if="qObject[item.Property][item.Id].Text[language] != undefined" ng-switch-when="4" bind-html-compile="qObject[item.Property][item.Id].Text[language]">
+                    </div>
+                    <div ng-if="qObject[item.Property][item.Id].Text[language] == undefined" ng-switch-when="4" bind-html-compile="qObject[item.Property][item.Id].Text[DefaultLanguage]">
+                    </div>
+                    <div ng-if="qObject[item.Property][item.Id].Text[language] != undefined" ng-switch-when="5" bind-html-compile="qObject[item.Property][item.Id].Text[language]">
+                    </div>
+                    <div ng-if="qObject[item.Property][item.Id].Text[language] == undefined" ng-switch-when="5" bind-html-compile="qObject[item.Property][item.Id].Text[DefaultLanguage]">
+                    </div>
+
+                </div>
+            </td>
+            <td ng-if="ShowAs == 11 && TotalBox == 'RowTotal'"><b>Total</b></td>
+        </tr>
+    </thead>
+
+    <tbody class="grid-width">
+        <tr ng-repeat="row in GridData.row" ng-init="rowIndex=$index">
+            <td ng-if="qObject.Properties.Transpose == 'true'" class="font-size text-right" style="min-width:200px;">
+                <div ng-if="QuestionType == 11 && qObject.Variables[OptionsVariable.Id].Properties.ShowAs != '2'" ng-repeat="option in qObject.Variables[OptionsVariable.Id].VariableLevelSequence" class="option-container">
+                    <span ng-if="qObject.Variables[OptionsVariable.Id].Options[option.ID].Media[language]"><img onError="this.onerror=null;this.src='./Project/app/Components/SE/assets/images/default.jpg';" ng-src="{{qObject.Variables[OptionsVariable.Id].Options[option.ID].Media[language]}}" style="max-height:100px;max-width:100px;"/></span>
+                    <span ng-if="qObject.Variables[OptionsVariable.Id].Options[option.ID].Text[language] != undefined" bind-html-compile="qObject.Variables[OptionsVariable.Id].Options[option.ID].Text[language]" class="font-bold span-height"></span>
+                    <span ng-if="qObject.Variables[OptionsVariable.Id].Options[option.ID].Text[language] == undefined" bind-html-compile="qObject.Variables[OptionsVariable.Id].Options[option.ID].Text[DefaultLanguage]" class="font-bold span-height"></span>
+                </div>
+                <div ng-if="QuestionType != 11" class="font-size">
+                    <span ng-if="qObject.Variables[GridData.row[$index][0].Id].Media[language]"><img onError="this.onerror=null;this.src='./Project/app/Components/SE/assets/images/default.jpg';" ng-src="{{qObject.Variables[GridData.row[$index][0].Id].Media[language]}}" style="max-height:100px;max-width:100px;"/></span>
+                    <span ng-if="qObject.Variables[GridData.row[$index][0].Id].Text[language] != undefined" bind-html-compile="qObject.Variables[GridData.row[$index][0].Id].Text[language]" class="font-bold span-height"></span>
+                    <span ng-if="qObject.Variables[GridData.row[$index][0].Id].Text[language] == undefined" bind-html-compile="qObject.Variables[GridData.row[$index][0].Id].Text[DefaultLanguage]" class="font-bold span-height"></span>
+                </div>
+            </td>
+            <td ng-class="{'attribute-indent': cell.InGroup,'text-right': qObject[cell.Property][cell.Id].Properties.ShowAs != 'dropdown' && (cell.Property == 'AttributeHeaders' || cell.Property == 'Attributes'), 'group-seperator': cell.IsLastVariable, 'grid-text-header': cell.Property == 'AttributeHeaders'}" ng-repeat="cell in row" ng-init="dataIndex=$index" class="padding-5 font-bold">
+                <span ng-if="qObject[cell.Property][cell.Id].Media[language]"><img onError="this.onerror=null;this.src='./Project/app/Components/SE/assets/images/default.jpg';" ng-src="{{qObject[cell.Property][cell.Id].Media[language]}}" style="max-height:100px;max-width:100px;"/></span>
+                <span ng-if="(cell.Property == 'AttributeHeaders' || cell.Property == 'Attributes') && qObject[cell.Property][cell.Id].Text[language] != undefined" bind-html-compile="qObject[cell.Property][cell.Id].Text[language]" class="font-size text-right">
+                </span>
+                <span ng-if="(cell.Property == 'AttributeHeaders' || cell.Property == 'Attributes') && qObject[cell.Property][cell.Id].Text[language] == undefined" bind-html-compile="qObject[cell.Property][cell.Id].Text[DefaultLanguage]" class="font-size text-right">
+                </span>
+                <span ng-if="cell.Property == 'Text2' && qObject.Attributes[cell.Id].Text2[language] != undefined" bind-html-compile="qObject.Attributes[cell.Id].Text2[language]" class="font-size font-bold">
+                </span>
+                <span ng-if="cell.Property == 'Text2' && qObject.Attributes[cell.Id].Text2[language] == undefined" bind-html-compile="qObject.Attributes[cell.Id].Text2[DefaultLanguage]" class="font-size font-bold">
+                </span>
+
+                <span ng-if="cell.Property == 'Empty'"></span>
+                <!-- Repeat Headers -->
+                
+				<div ng-switch="qObject[cell.Property][cell.Id].VariableType" ng-if="isHeader[rowIndex] && qObject[cell.Property][cell.Id].Properties.ShowAs != '2'">
+					<div ng-switch-when="1" class="grid-cat-head  font-75">
+						<div ng-if="qObject[cell.Property][cell.Id].Options[option.ID].Text[language] != undefined" bind-html-compile="qObject[cell.Property][cell.Id].Options[option.ID].Text[language]" class="grid-cat-headtext" ng-repeat="option in qObject[cell.Property][cell.Id].VariableLevelSequence" ng-if="qObject[cell.Property][cell.Id].Properties.ShowAs != 'dropdown'">
+						</div>
+                        <div ng-if="qObject[cell.Property][cell.Id].Options[option.ID].Text[language] == undefined" bind-html-compile="qObject[cell.Property][cell.Id].Options[option.ID].Text[DefaultLanguage]" class="grid-cat-headtext" ng-repeat="option in qObject[cell.Property][cell.Id].VariableLevelSequence" ng-if="qObject[cell.Property][cell.Id].Properties.ShowAs != 'dropdown'">
+						</div>
+					</div>
+					<div ng-switch-when="2" class="grid-cat-head  font-75">
+						<div ng-if="qObject[cell.Property][cell.Id].Options[option.ID].Text[language] != undefined" bind-html-compile="qObject[cell.Property][cell.Id].Options[option.ID].Text[language]" grid-option-width index="{{$index}}" class="grid-cat-headtext" ng-repeat="option in qObject[cell.Property][cell.Id].VariableLevelSequence">
+						</div>
+                        <div ng-if="qObject[cell.Property][cell.Id].Options[option.ID].Text[language] == undefined" bind-html-compile="qObject[cell.Property][cell.Id].Options[option.ID].Text[DefaultLanguage]" grid-option-width index="{{$index}}" class="grid-cat-headtext" ng-repeat="option in qObject[cell.Property][cell.Id].VariableLevelSequence">
+						</div>
+					</div>
+					<div ng-if="qObject[cell.Property][cell.Id].Text[language] != undefined" bind-html-compile="qObject[cell.Property][cell.Id].Text[language]" ng-switch-when="3">
+					</div>
+                    <div ng-if="qObject[cell.Property][cell.Id].Text[language] == undefined" bind-html-compile="qObject[cell.Property][cell.Id].Text[DefaultLanguage]" ng-switch-when="3">
+					</div>
+					<div ng-if="qObject[cell.Property][cell.Id].Text[language] != undefined" bind-html-compile="qObject[cell.Property][cell.Id].Text[language]" ng-switch-when="4">
+					</div>
+                    <div ng-if="qObject[cell.Property][cell.Id].Text[language] == undefined" bind-html-compile="qObject[cell.Property][cell.Id].Text[DefaultLanguage]" ng-switch-when="4">
+					</div>
+					<div ng-if="qObject[cell.Property][cell.Id].Text[language] != undefined" bind-html-compile="qObject[cell.Property][cell.Id].Text[language]" ng-switch-when="5">
+					</div>
+                    <div ng-if="qObject[cell.Property][cell.Id].Text[language] == undefined" bind-html-compile="qObject[cell.Property][cell.Id].Text[DefaultLanguage]" ng-switch-when="5">
+					</div>
+				</div>
+
+                <div ng-switch="qObject[cell.Property][cell.Id].VariableType" ng-if="!isHeader[rowIndex]">
+                    <div ng-switch-when="1" class="opt-container">
+                        <survey-variable variable="qObject.Variables[cell.Id]">
+                            <survey-options show-option-label="false" is-grid-options="true"></survey-options>
+                        </survey-variable>
+                    </div>
+                    <div ng-switch-when="2">
+                        <survey-variable variable="qObject.Variables[cell.Id]">
+                            <survey-options show-option-label="false" is-grid-options="true"></survey-options>
+                        </survey-variable>
+                    </div>
+                    <div ng-switch-when="3">
+                        <survey-variable variable="qObject.Variables[cell.Id]">
+                            <div class="sg-container">
+                                <input type="text" ng-model="answerInput" ng-blur="OnBlurSave(answerInput)" class="input-txt darkBdr">
+                            </div>
+                        </survey-variable>
+                    </div>
+                    <div ng-switch-when="4">
+                        <survey-variable variable="qObject.Variables[cell.Id]" ng-if="qObject.QuestionType == 14 || qObject.QuestionType == 12">
+                            <div class="sg-container">
+                                <span ng-if="variable.Properties.Prefix != ''" class="font-size">{{variable.Properties.Prefix}}</span>
+                                <input type="number" class="input-txt darkBdr paddingZero" ng-if="TotalBox == 'RowTotal' || TotalBox == 'None'" ng-model="SelectedValues.single" ng-change="SetDecimalPlaces(SelectedValues.single)" ng-blur="SaveAnswer(SelectedValues.single);addVariable($parent.$parent.rowIndex)" ng-init="addVariable($parent.$parent.rowIndex)" style="width: 70%!important"/>
+                                <input type="number" class="input-txt darkBdr paddingZero" ng-if="TotalBox == 'ColumnTotal'" ng-model="SelectedValues.single" ng-change="SetDecimalPlaces(SelectedValues.single)" ng-blur="SaveAnswer(SelectedValues.single);addVariable($parent.$parent.dataIndex)" ng-init="addVariable($parent.$parent.dataIndex)" style="width: 70%!important"/>
+                                <span ng-if="variable.Properties.Suffix != ''" class="font-size">{{variable.Properties.Suffix}}</span>
+                                <div class="error font-75" ng-if="!valid">*Invalid Input</div>
+                                <span class="error font-75" ng-if="!valid">(Min: {{variable.Properties.Min}}, Max: {{variable.Properties.Max}})
+                            </div>
+                        </survey-variable>
+                         <survey-variable variable="qObject.Variables[cell.Id]" ng-if="qObject.QuestionType == 8">
+                            <div class="sg-container font-size">
+                               <!-- <span>Min: {{variable.Properties.Min}}, Max: {{variable.Properties.Max}}</span>-->
+                               <rzslider rz-slider-model="answerInput" rz-slider-options="{id:variable.Name, floor:variable.Properties.Min, ceil:variable.Properties.Max, step:variable.Properties.IncrementScaleBy, onChange:OnValueChange(variable.Name,answerInput,variable.Properties.Max)}"></rzslider>
+                                <!--<span  class="numericSpan">{{answerInput}}</span>-->
+                                <!--<span>Min: {{variable.Properties.Min}}, Max: {{variable.Properties.Max}}</span>
+                                <input type="range" min="{{variable.Properties.Min}}" max="{{variable.Properties.Max}}" step="{{variable.Properties.IncrementScaleBy}}" ng-model="answerInput" ng-blur="SaveAnswer(answerInput)" class=" darkBdr">
+                                <span  class="numericSpan">{{answerInput}}</span>-->
+                            </div>
+                        </survey-variable>
+                         <!-- <survey-variable variable="qObject.Variables[cell.Id]" ng-if="qObject.QuestionType == 8">
+                            <div class="sg-container">
+                              {{answerInput}}  <input type="range" min="0" max="100" ng-model="answerInput" ng-blur="SaveAnswer(answerInput)">
+                            </div>
+                        </survey-variable> -->
+                    </div>
+                    <div ng-switch-when="5" bind-html-compile="qObject[item.Property][item.Id].Text[language]">
+                    </div>
+
+                </div>
+            </td>
+            <td ng-if="ShowAs == 11 && TotalBox == 'RowTotal' && GridData.row[$index][0].Property != 'AttributeHeaders'" class="padding-5">
+                <div class="sg-container">
+                    <b><input type="number" readonly class="total-values input-txt" ng-value="Total.sum[$index]"></b>
+                </div>
+            </td>
+        </tr>
+        <tr ng-if="ShowAs == 11 && TotalBox == 'ColumnTotal'" class="total-row">
+            <td style="text-align:right!important;padding-right: 3em !important"><b>Total</b></td>
+            <td ng-repeat="column in GridData.head[0]" ng-class="{'group-seperator': $index == GridData.head[0].length}">
+                <div ng-class="sg-container" ng-if="qObject.Properties.Transpose == 'false'">
+                    <b><input type="number" readonly ng-value="Total.sum[$index + 1]" class="total-values input-txt"></b>
+                </div>
+                <div ng-class="sg-container" ng-if="qObject.Properties.Transpose == 'true'">
+                    <b><input type="number" readonly ng-value="Total.sum[$index]" class="total-values input-txt"></b>
+                </div>
+            </td>
+        </tr>
+    </tbody>
+</table>

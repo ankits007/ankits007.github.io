@@ -1,0 +1,26 @@
+<div class="card center-div">
+    <!--Question Container-->
+    <div class="sq-container">
+        <div ng-if="ShowQuestionNumber" class="sq-name table-cell">{{qObject.Name}}</div>
+        <div ng-if="qObject.Text[language] != undefined" class="sq-text table-cell" bind-html-compile="qObject.Text[language]"></div>
+        <div ng-if="qObject.Text[language] == undefined" class="sq-text table-cell" bind-html-compile="qObject.Text[DefaultLanguage]"></div>
+    </div>
+    <div>
+        <span style="color: red" ng-if="ShowMandatoryStar" class="font-75">
+            <b>* This field is mandatory</b>
+        </span>
+    </div>
+    <div>
+        <span style="color: red" ng-if="ShowMinStar" class="font-75">
+            <b>* You need to fill at least {{qObject.Properties.MinChoices}} choices</b>
+        </span>
+    </div>
+    <!--Variable Container-->
+    <div class="sv-container">
+        <survey-variable variable="qObject.Variables[qObject.QuestionLevelSequence[0].ID]">
+            <single-choice-gamify variable="variable">
+
+            </single-choice-gamify>
+        </survey-variable>
+    </div>
+</div>

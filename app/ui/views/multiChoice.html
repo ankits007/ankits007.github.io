@@ -1,0 +1,20 @@
+<div class="card center-div">
+    <!--Question Container-->
+    <div class="sq-container">
+        <div class="sq-name table-cell">{{qObject.Name}}  </div>
+        <div class="sq-text table-cell" bind-html-compile="qObject.Text[language]"></div>
+    </div>
+
+    <!--Variable Container-->
+    <div class="sv-container">
+        <survey-variable variable="qObject.Variables[qObject.QuestionLevelSequence[0].ID]">
+            <!--<div>-->
+                
+                <survey-options></survey-options>
+                <!--<survey-option-group ng-switch-when="radio" ng-repeat="group in variable.OptionGroupSequence" type="{{variable.VariableType}}"  option-group="variable.OptionGroups[group]">
+                </survey-option-group>
+                <survey-single-select ng-switch-default show-as="{{variable.Properties.ShowAs.toLowerCase()}}"></survey-single-select>-->
+            <!--</div>-->
+        </survey-variable>
+    </div>
+</div>

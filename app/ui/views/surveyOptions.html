@@ -1,0 +1,85 @@
+<div>
+    <div ng-switch="displayType" style="display: table; width: 100%" class="active">
+
+        <div ng-switch-when="dropdown" class="input-wrapper pos-rel">
+            <a ng-click="ShowDropDown()" class="triangle"><span></span></a>
+            <input type="text" ng-model="filter.input" placeholder="{{Placeholders['Dropdown'][Language] || Placeholders['Dropdown'][DefaultLanguage]}}"
+                ng-click="ShowDropDown()" ng-change="filterOptions(filter.input)" />
+            <ul class="dropOption" ng-if="InputClicked">
+                <li ng-repeat="item in OptionsList">
+                    <!--option group-->
+                    <div ng-if="!item.IsOption" class="group-container">
+                        <div class="sg-name" ng-if="variable.OptionGroups[item.ID].ShowHeader">{{variable.OptionGroups[item.ID].Text[Language]}}</div>
+
+                        <div ng-repeat="optionCode in variable.OptionGroups[item.ID].OptionSequence" class="option-indent">
+                            <survey-option option-id="{{optionCode}}"></survey-option>
+                        </div>
+                    </div>
+                    <div ng-if="item.IsOption">
+                        <survey-option option-id="{{item.ID}}"></survey-option>
+                    </div>
+                </li>
+            </ul>
+        </div>
+        <div ng-switch-when="longlist" class="input-wrapper pos-rel">
+
+            <input style="width: 90%;float: left;" type="text" ng-model="filter.input" placeholder="{{Placeholders['Dropdown'][Language] || Placeholders['Dropdown'][DefaultLanguage]}}" />
+            <span ng-click="filterOptions(filter.input)">
+                    <!-- <i class="fas fa-search"></i> -->
+                    <img style="width: 30px; height: 30px;" src="assets/images/search.png">
+                </span>
+            <ul class="dropOption">
+                <li ng-repeat="item in OptionsList">
+                    <!--option group-->
+                    <div ng-if="!item.IsOption" class="group-container">
+                        <div class="sg-name" ng-if="variable.OptionGroups[item.ID].ShowHeader">{{variable.OptionGroups[item.ID].Text[Language]}}</div>
+
+                        <div ng-repeat="optionCode in variable.OptionGroups[item.ID].OptionSequence" class="option-indent">
+                            <survey-option option-id="{{optionCode}}"></survey-option>
+                        </div>
+                    </div>
+                    <div ng-if="item.IsOption">
+                        <survey-option option-id="{{item.ID}}"></survey-option>
+                    </div>
+                </li>
+            </ul>
+            <div class="option-paging-container">
+                <ul ng-if="OptionInfo.showPagination">
+                    <li>
+                        <a href="" class="opt-page-prev" ng-click="onPrevClick()">Previous</a>
+                    </li>
+                    <li ng-repeat="page in OptionInfo.pageSequence track by $index">
+                        <a href="" ng-class="{'active': OptionInfo.currentPage == page}" ng-click="onPageClick(page, $index)">{{page}}</a>
+                    </li>
+                    <li>
+                        <a href="" class="opt-page-next" ng-click="onNextClick()">Next</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <rc-select ng-switch-when="selectbox"></rc-select>
+
+        <rc-select ng-switch-when="multiselectbox"></rc-select>
+
+        <ul ng-switch-default ng-class="{'imgOption marginZero':(variable.Properties.ShowAs == 14 || variable.Properties.ShowAs == 15)}">
+            <li class="{{'opt-' + variable.Name + '-' + item.ID}}" style="margin-right:2px;" ng-repeat="item in variable.VariableLevelSequence"
+                ng-class="{'wrapped-group':!item.IsOption,'survey-option-text' : variable.Properties.Orientation == 'Horizontal', 'wrapped': (variable.Properties.Orientation == 'InRows' || variable.Properties.Orientation == 'InColumns')}">
+
+                <!--option group-->
+                <div ng-if="!item.IsOption" class="group-container">
+                    <div class="sg-name" ng-if="variable.OptionGroups[item.ID].ShowHeader">{{variable.OptionGroups[item.ID].Text[Language]}}</div>
+
+                    <div ng-repeat="optionCode in variable.OptionGroups[item.ID].OptionSequence" class="option-indent">
+                        <survey-option option-id="{{optionCode}}"></survey-option>
+                    </div>
+                </div>
+
+                <!--option-->
+                <div ng-if="item.IsOption">
+                    <survey-option option-id="{{item.ID}}"></survey-option>
+                </div>
+            </li>
+        </ul>
+        <div style="clear:both"></div>
+    </div>
+</div>

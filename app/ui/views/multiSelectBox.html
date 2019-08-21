@@ -1,0 +1,13 @@
+<div class="sg-container">
+    <select class="dropdown darkBdr" multiple size="15"  ng-model="data.SelectedValues" ng-change="updateOptionsSelected(data.SelectedValues)">
+        <optgroup ng-repeat="group in variable.OptionGroupSequence" label="{{variable.OptionGroups[group].Text[Language]}}">
+            <option ng-click="onSelect(variable.OptionGroups[group].Options[optionID], SelectedValues)" ng-repeat="optionID in variable.OptionGroups[group].OptionSequence" ng-value="variable.OptionGroups[group].Options[optionID].Code">{{variable.OptionGroups[group].Options[optionID].Text[Language]}}</option>
+        </optgroup>
+    </select>
+    <div ng-repeat="group in variable.OptionGroupSequence">
+    	<div ng-repeat="optionID in variable.OptionGroups[group].OptionSequence">
+    		<label ng-show="variable.OptionGroups[group].Options[optionID].IsOther && data.optionsSelected[variable.OptionGroups[group].Options[optionID].Code]">{{variable.OptionGroups[group].Options[optionID].Text[Language]}}></label>
+		</div>
+    </div>
+ </div>
+   

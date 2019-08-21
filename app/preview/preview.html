@@ -1,0 +1,42 @@
+<div  layout="column" flex class="collection-style surveyBuilder pos-rel flex-auto-safari">
+    
+    <md-content class="tab-Container pos-rel" layout="row"  id="tab-ribbon">
+        <div layout="row" layout-align="center center" style="overflow-y:hidden">
+              <select ng-model="ScreenWidth" ng-change="ChangeScreenWidth()" class="dropdown" style="margin:0.4rem">
+                  <option ng-repeat="size in ScreenSizes" value="{{size}}">{{size}}
+              </select>
+               <md-divider></md-divider>
+            <div ng-click="OpenSurveyStyleDialog($event)" title="Survey Style" layout="column" class="ribbon-item big-ribbon" style="width: 80px;">
+                <md-icon class="ng-scope ng-isolate-scope md-default-theme medium-icon" md-svg-src="assets/svg/surveyStyle.svg"></md-icon>
+                <span class="icon-text">Survey Style</span>
+        </div>
+
+            <md-divider></md-divider>
+            <div ng-click="OpenFontsColorsDialog($event)" title="Font and Color Style" layout="column" class="ribbon-item big-ribbon" style="width: 90px;">
+                <md-icon class="ng-scope ng-isolate-scope md-default-theme medium-icon" md-svg-src="assets/svg/colorStyle.svg"></md-icon>
+                <span class="icon-text">Font/Color Style</span>
+        </div>
+            <div ng-click="OpenPageLayoutDialog($event)" title="Page Layout" layout="column" class="ribbon-item big-ribbon" style="width: 80px;">
+                <md-icon class="ng-scope ng-isolate-scope md-default-theme medium-icon" md-svg-src="assets/svg/pageStyle.svg"></md-icon>
+                <span class="icon-text">Page Layout</span>
+        </div>
+            <md-divider></md-divider>
+            <div ng-click="OpenSurveyThemeDialog($event)" title="Survey Background" layout="column" class="ribbon-item big-ribbon" style="width: 120px;">
+                <md-icon class="ng-scope ng-isolate-scope md-default-theme medium-icon" md-svg-src="assets/svg/survey_bg.svg"></md-icon>
+                <span class="icon-text">Survey Background</span>
+        </div>
+            <md-divider></md-divider>
+            <select class="dropdown"  style="margin:0.4rem" ng-model="selectedNode" ng-change="Jump(selectedNode)">
+                <option value="-1">Select Jump Node</option>
+                <option ng-repeat="name in Questions" value="{{name.SurveyObjectName}}">{{name.SurveyObjectName}}</option>
+            </select>
+    </div>
+    </md-content>
+
+    <div id="previewPage" class="preview-page" data-ng-controller="EngineCore.FlowController">
+        <pe-loader show-progress="ShowProgress" message="ShowProgress"></pe-loader>
+    <div id="page" class="dark-text">
+        </div>
+    </div>
+</div>
+

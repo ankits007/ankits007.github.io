@@ -1,0 +1,49 @@
+<div class="card center-div">
+    <!--Question Container-->
+    <div class="sq-container" error-tool-tip error-config="ErrorConfig">
+        <div ng-if="ShowQuestionNumber" class="sq-name table-cell">{{qObject.Name}}</div>
+        <div class="sq-text table-cell display-block">
+                <div><img image-on-load class="maxSize" ng-if="qObject.Properties.MediaPath && qObject.Properties.MediaType == '1' && (qObject.Properties.MediaPosition == 'up' ||  !qObject.Properties.MediaPosition) " src="{{qObject.Properties.MediaPath}}"/>
+                    <audio controls class="maxSize" ng-if="qObject.Properties.MediaPath && qObject.Properties.MediaType == '2' && (qObject.Properties.MediaPosition == 'up' ||  !qObject.Properties.MediaPosition) " src="{{qObject.Properties.MediaPath}}">
+                            <source src="{{qObject.Properties.MediaPath | trusted}}" type="audio/mpeg">
+                    </audio>
+                    <video controls video-on-load class="maxSize" ng-if="qObject.Properties.MediaPath && qObject.Properties.MediaType == '3' && (qObject.Properties.MediaPosition == 'up' ||  !qObject.Properties.MediaPosition) ">
+                            <source src="{{qObject.Properties.MediaPath | trusted}}" type="video/mp4">
+                    </video>
+                </div>
+        <div ng-if="qObject.Text[language] != undefined"  bind-html-compile="qObject.Text[language]"></div>
+        <div ng-if="qObject.Text[language] == undefined"  bind-html-compile="qObject.Text[DefaultLanguage]"></div>
+        <img image-on-load class="maxSize" ng-if="qObject.Properties.MediaPath && qObject.Properties.MediaType == '1' && qObject.Properties.MediaPosition == 'down'" src="{{qObject.Properties.MediaPath}}"/>
+        <audio controls class="maxSize" ng-if="qObject.Properties.MediaPath && qObject.Properties.MediaType == '2' && qObject.Properties.MediaPosition == 'down'" src="{{qObject.Properties.MediaPath}}">
+                <source src="{{qObject.Properties.MediaPath | trusted}}" type="audio/mpeg">
+        </audio>
+        <video controls video-on-load  ng-if="qObject.Properties.MediaPath && qObject.Properties.MediaType == '3' && qObject.Properties.MediaPosition == 'down'">
+                <source src="{{qObject.Properties.MediaPath | trusted}}" type="video/mp4">
+        </video> 
+    </div>
+    </div>
+    <!--Variable Container-->
+    <div class="sv-container">
+        <div><span style="color: red" ng-if="ShowMandatoryStar && AnswerInvalid">*Invalid Input</span></div>
+        <survey-variable ng-repeat="item in qObject.QuestionLevelSequence" variable="qObject.Variables[item.ID]">
+            <!-- <span ng-if="variable.Properties.Max" class="max-min font-90">(Max Length: {{variable.Properties.Max}},</span>
+            <span ng-if="variable.Properties.Min" class="max-min font-90">Min Length: {{variable.Properties.Min}})</span> -->
+            <div ng-if="variable.Properties.ShowAs == 12" class="sg-container">
+                <!-- <input ng-if="variable.Properties.RegexType == 'Telephone' || variable.Properties.RegexType == 'Postal'" placeholder="{{RegexExample}}" class="input-txt darkBdr"  type="number" ng-model="answerInput" ng-blur="SaveAnswer(answerInput)" /> -->
+                <input id="{{variable.Name}}" ng-class="{'border-all':variable.Properties.ShowFullBorder == 'true', 'border-red':SelectedValues.single.length < variable.Properties.Min && SelectedValues.single }" maxlength="{{variable.Properties.Max}}" variableName="{{variable.Name}}" placeholder="{{Placeholder}}" class="focusableInput darkBdr input-txt full-width" type="text" ng-model="SelectedValues.single" ng-blur="OnBlurSave(SelectedValues.single)"/>
+            </div>
+            <div ng-if="variable.Properties.ShowAs == 13" class="sg-container">
+                <textarea id="{{variable.Name}}" ng-class="{'border-all':variable.Properties.ShowFullBorder  == 'true'}" variableName="{{variable.Name}}" placeholder="{{Placeholder}}" class="focusableInput darkBdr input-text-area" ng-model="SelectedValues.single" ng-blur="OnBlurSave(SelectedValues.single)"></textarea>
+            </div>
+            <div  ng-if="variable.VariableType == 3 && SelectedValues.single && HideOkButton != 'true'">
+                <div class="button nav enabled  display-inline-block" ng-click="SaveAnswer(SelectedValues.single)">
+                    <span>{{(Buttons['Ok'][Language] || Buttons['Ok'][DefaultLanguage])}} <i class="fa fa-check"></i></span>
+                </div>
+                <!-- <div class="text display-inline-block" ng-if="!isMobileDevice">press <strong>ENTER</strong></div> -->
+            </div>
+            <survey-options ng-if="variable.VariableType == 1"></survey-options>
+
+            <!-- <span class="error" ng-if="!valid">*Invalid Input</span> -->
+        </survey-variable>
+    </div>
+</div>

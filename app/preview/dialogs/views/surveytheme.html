@@ -1,0 +1,66 @@
+<md-dialog ng-cloak class="collection-style surveyBuilder" flex="50">
+    <md-toolbar>
+        <div class="md-toolbar-tools">
+            <span><!-- For Icon --></span>
+            <h3>Survey Background</h3>
+            <span flex></span>
+            <span ng-click="Cancel()"><md-icon class="ng-scope ng-isolate-scope md-default-theme small-icon marginZero"  md-svg-src="project/app/components/collections/assets/svg/close.svg"></md-icon>
+		</div>
+	</md-toolbar>
+
+    <md-tabs md-bottom-border md-dynamic-height>
+        <md-tab label="Rebus Cloud">
+            <md-dialog-content>
+                <div layout="column">
+                  <div flex layout="row">
+                        <div flex ng-class="{'box-shadow': IsThemeSelected[0]}" ng-click="ChangeSurveyTheme('0')" class="display-inline-block borderTrans"><div class="margin-5" style="height: 70px; border: 1px solid #e4e4e4;background: white"></div></div>
+                        <div flex ng-class="{'box-shadow': IsThemeSelected[8]}" ng-click="ChangeSurveyTheme('8')" class="display-inline-block borderTrans"><div class="margin-5" style="height: 70px; border: 1px solid #e4e4e4;background: url('project/app/components/SE/assets/themes/old-paper-sm.png') no-repeat;background-size:cover; "></div></div>
+                        <div flex ng-class="{'box-shadow': IsThemeSelected[9]}" ng-click="ChangeSurveyTheme('9')" class="display-inline-block borderTrans"><div class="margin-5" style="height: 70px; border: 1px solid #e4e4e4;background: url('project/app/components/SE/assets/themes/whiteCanvas-sm.png') no-repeat;background-size:cover; "></div></div>
+                        <div flex ng-class="{'box-shadow': IsThemeSelected[4]}" ng-click="ChangeSurveyTheme('4')" class="display-inline-block borderTrans"><div class="margin-5" style="height: 70px; border: 1px solid #e4e4e4;background: url('project/app/components/SE/assets/themes/light-blue-sm.png') no-repeat;background-size:cover; "></div></div>
+                        <div flex ng-class="{'box-shadow': IsThemeSelected[5]}" ng-click="ChangeSurveyTheme('5')" class="display-inline-block borderTrans"><div class="margin-5" style="height: 70px; border: 1px solid #e4e4e4;background: url('project/app/components/SE/assets/themes/abstract-blue-sm.png') no-repeat;background-size:cover;"></div></div>
+                        <div flex ng-class="{'box-shadow': IsThemeSelected[6]}" ng-click="ChangeSurveyTheme('6')" class="display-inline-block borderTrans"><div class="margin-5" style="height: 70px; border: 1px solid #e4e4e4;background: url('project/app/components/SE/assets/themes/circuit-sm.png') no-repeat;background-size:cover;"></div></div>
+
+
+                    </div>
+                    <div flex layout="row">
+                         <div flex ng-class="{'box-shadow': IsThemeSelected[10]}" ng-click="ChangeSurveyTheme('10')" class="display-inline-block borderTrans"><div class="margin-5" style="height: 70px; border: 1px solid #e4e4e4;background: url('project/app/components/SE/assets/themes/blackboard-sm.png') no-repeat;background-size:cover; "></div></div>
+                        <div flex ng-class="{'box-shadow': IsThemeSelected[1]}" ng-click="ChangeSurveyTheme('1')" class="display-inline-block borderTrans"><div class="margin-5" style="height: 70px; border: 1px solid #e4e4e4;background: url('project/app/components/SE/assets/themes/Black-dotted-sm.png') no-repeat;background-size:cover; "></div></div>
+                        <div flex ng-class="{'box-shadow': IsThemeSelected[2]}" ng-click="ChangeSurveyTheme('2')" class="display-inline-block borderTrans"><div class="margin-5" style="height: 70px; border: 1px solid #e4e4e4;background: url('project/app/components/SE/assets/themes/black-sm.png') no-repeat;background-size:cover;"></div></div>
+                        <div flex ng-class="{'box-shadow': IsThemeSelected[3]}" ng-click="ChangeSurveyTheme('3')" class="display-inline-block borderTrans"><div class="margin-5" style="height: 70px; border: 1px solid #e4e4e4;background: url('project/app/components/SE/assets/themes/grunge-sm.png') no-repeat;background-size:cover;"></div></div>
+                        <div flex ng-class="{'box-shadow': IsThemeSelected[7]}" ng-click="ChangeSurveyTheme('7')" class="display-inline-block borderTrans"><div class="margin-5" style="height: 70px; border: 1px solid #e4e4e4;background: url('project/app/components/SE/assets/themes/Wall-Texture-sm.png') no-repeat;background-size:cover;"></div></div>
+                </div>
+                </div>
+            </md-dialog-content>
+        </md-tab>
+        
+        <md-tab label="My Assets" ng-click="getMedia()">
+            <md-content>
+                 <div>
+                     <div style="width:100px;height:100px;display:inline-block;" ng-repeat="file in mediaList">
+                         <img ng-src="{{file}}" height="100" width="100" />
+                     </div>
+            </div>
+   
+                <div flex="100" ng-if="SelectionType" class="pos-rel" style="height:50px">
+                     <md-button style="position:absolute;right:5px" class="md-primary md-raised" ng-click="setSelectionType();">Add to asset</md-button>    
+                 </div>
+                          <div flex="100" ng-if="!SelectionType">
+                          <form name="form">   
+                               <input id="fileName" type="text" ng-model="imageModel.file.name" disabled/>             
+                               <md-button style="position:absolute;right:5px" class="md-primary" md-no-ink class="button" ngf-select="SelectMedia($file)"  name="file" ngf-pattern="'image/*'" ngf-accept="'image/*'" >Browse</md-button>
+                                <md-button class="md-raised md-delete" ng-click="setSelectionType();">Cancel</md-button>
+                                <md-button class="md-raised md-primary" ng-disabled="!imageModel.file" ng-click="addMediaToAsset()">Ok</md-button>    
+                          </form>   
+      </div>
+            </md-content>
+        </md-tab>
+    </md-tabs>
+
+        <md-dialog-content>
+            <md-dialog-actions layout="row" layout-align="end center">
+                <md-button class="md-raised md-delete" ng-click="Cancel()">Close</md-button>
+                <md-button class="md-raised md-primary" ng-click="setTheme()">Set</md-button>
+
+            </md-dialog-actions>
+        </md-dialog-content>
+</md-dialog>

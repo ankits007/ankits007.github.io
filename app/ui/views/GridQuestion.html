@@ -1,0 +1,46 @@
+<div class="card center-div">
+    <!--Question Container-->
+    <div class="sq-container" error-tool-tip error-config="ErrorConfig">
+        <div ng-if="ShowQuestionNumber" class="sq-name table-cell">{{qObject.Name}}</div>
+        <div class="sq-text table-cell display-block">
+                <div><img image-on-load class="maxSize" ng-if="qObject.Properties.MediaPath && qObject.Properties.MediaType == '1' && (qObject.Properties.MediaPosition == 'up' ||  !qObject.Properties.MediaPosition) " src="{{qObject.Properties.MediaPath}}"/>
+                <audio controls class="maxSize" ng-if="qObject.Properties.MediaPath && qObject.Properties.MediaType == '2' && (qObject.Properties.MediaPosition == 'up' ||  !qObject.Properties.MediaPosition) " src="{{qObject.Properties.MediaPath}}">
+                        <source src="{{qObject.Properties.MediaPath | trusted}}" type="audio/mpeg">
+                </audio>
+                <video controls video-on-load class="maxSize" ng-if="qObject.Properties.MediaPath && qObject.Properties.MediaType == '3' && (qObject.Properties.MediaPosition == 'up' ||  !qObject.Properties.MediaPosition) ">
+                        <source src="{{qObject.Properties.MediaPath | trusted}}" type="video/mp4">
+                </video>
+            </div>
+
+        <div ng-if="qObject.Text[language] != undefined"  bind-html-compile="qObject.Text[language]"></div>
+        <div ng-if="qObject.Text[language] == undefined"  bind-html-compile="qObject.Text[DefaultLanguage]"></div>
+   
+        
+ <img image-on-load class="maxSize" ng-if="qObject.Properties.MediaPath && qObject.Properties.MediaType == '1' && qObject.Properties.MediaPosition == 'down'" src="{{qObject.Properties.MediaPath}}"/>
+ <audio controls class="maxSize" ng-if="qObject.Properties.MediaPath && qObject.Properties.MediaType == '2' && qObject.Properties.MediaPosition == 'down'" src="{{qObject.Properties.MediaPath}}">
+         <source src="{{qObject.Properties.MediaPath | trusted}}" type="audio/mpeg">
+ </audio>
+ <video controls video-on-load  ng-if="qObject.Properties.MediaPath && qObject.Properties.MediaType == '3' && qObject.Properties.MediaPosition == 'down'">
+         <source src="{{qObject.Properties.MediaPath | trusted}}" type="video/mp4">
+ </video>
+</div>
+    </div>
+    <div><span style="color: red"  class="font-size"><b>{{ErrorMessage}}</b></span></div>
+    <div><span style="color: red" ng-if="qObject.Properties.MobileFriendly == 'true' && ShowMandatoryStar && !AnswerInvalid" class="font-size"><b>*This question is mandatory</b></span></div>
+    <div><span style="color: red" ng-if="qObject.Properties.MobileFriendly == 'false' && ShowMandatoryStar && !AnswerInvalid" class="font-size"><b>*All questions in this grid are mandatory</b></span></div>
+    <div><span style="color: red" ng-if="ShowMandatoryStar && AnswerInvalid" class="font-size"><b>*Invalid Input</b></span></div>
+    <!--Variable Container-->
+    <div class="sv-container">
+        <!--Grid-->
+        <div>
+            <div ng-if="qObject.Properties.MobileFriendly == 'true'" id="mobileGridPage" ng-init="GenerateMobileGridHtml()">
+            </div>
+        </div>
+         <!--Grid View-->
+        <div ng-if="qObject.Properties.MobileFriendly != 'true'" ng-class="{'fixedLayout':qObject.QuestionType == 14, 'nowrap-white-space width-80':qObject.QuestionType == 21,'simpleGrid':qObject.QuestionType == 11 || qObject.QuestionType == 27, 'distributionGrid':qObject.QuestionType == 27}">
+            <survey-grid ng-if="qObject.QuestionType != 21 && (qObject.Properties.OptimiseForMobile != 'true' || (qObject.Properties.OptimiseForMobile == 'true' && !isMobileDevice))"></survey-grid>
+            <div ng-if="qObject.QuestionType == 21 " id="mobileGridPage" ng-init="GenerateMobileGridHtml()">
+            </div>
+        </div>
+    </div>
+</div>

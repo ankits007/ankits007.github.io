@@ -1,0 +1,8 @@
+<div class="sg-container">
+      <select size="15"  ng-model="SelectedValue" ng-change="SaveAnswer(SelectedValue)" class="dropdown darkBdr">
+            <optgroup ng-repeat="group in variable.OptionGroupSequence" label="{{variable.OptionGroups[group].Text[Language]}}">
+                 <option ng-repeat="optionID in variable.OptionGroups[group].OptionSequence" value="{{variable.OptionGroups[group].Options[optionID].Code}}">{{variable.OptionGroups[group].Options[optionID].Text[Language]}}</option>
+            </optgroup>
+      </select>
+</div>
+       

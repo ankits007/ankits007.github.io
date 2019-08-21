@@ -1,0 +1,28 @@
+<div class="card center-div">
+    <!--Question Container-->
+    <div class="sq-container" error-tool-tip error-config="ErrorConfig">
+        <div ng-if="ShowQuestionNumber" class="sq-name table-cell">{{qObject.Name}}</div>
+        <div class="sq-text table-cell display-block" bind-html-compile="displayedText"></div></div>
+    <div class="sv-container text-center">
+        <div><span style="color: red; padding:10px;" ng-if="ShowMandatoryStar">*Media is mandatory to Watch/Listen</span></div>
+
+        <img image-on-load onError="this.onerror=null;this.src='./Project/app/Components/SE/assets/images/default.jpg';"
+             ng-click="ShowFullScreen()" ng-if="isImage" ng-src="{{qObject.Properties.MediaPath}}"
+             class="darkBdr img-display" height="{{qObject.Properties.Height}}" width="{{qObject.Properties.Width}}"/>
+
+        <audio ng-if="isAudio" controls src="{{path}}" type="audio/mp3"  height="{{qObject.Properties.Height}}" width="{{qObject.Properties.Width}}"></audio>
+        <video ng-if="isVideo" controls style="max-width:100%"  height="{{qObject.Properties.Height}}" width="{{qObject.Properties.Width}}" video-on-load seek-disable>
+        <source src='{{path}}' type='video/mp4'/>
+        </video>
+    </div>
+
+    <div id="img-modal" class="full-screen-mode">
+        <span ng-if="qObject.Properties.AutoDisappear != 'true'" ng-click="HideFullScreen()" class="clickable marginRight pull-right" style="float: right; margin: 10px 20px 0px 0px;position: absolute;right: 0px;top: 30px;" >
+            <img src="assets/images/close.png" />
+        </span>
+        <img class="rank-img-expand" style="max-width: 100%;max-height: 100%;padding: 5px;" />
+        <span ng-if="qObject.Properties.AutoDisappear == 'true'" style="position: absolute;bottom: 0px;width: 100%;left: 0px;background: rgba(0, 0, 0, 0.54);color: #fff;padding: .5rem;font-weight: bold;font-size: 1.1rem;">
+         Please study the image for {{timeRemaining}} seconds
+        </span>
+    </div>
+</div>

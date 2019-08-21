@@ -1,0 +1,53 @@
+<div class="card center-div">
+    <!--Question Container-->
+    <div class="sq-container" error-tool-tip error-config="ErrorConfig">
+        <div ng-if="ShowQuestionNumber" class="sq-name table-cell">{{qObject.Name}}</div>
+        <div class="sq-text table-cell display-block">
+                <div><img image-on-load class="maxSize" ng-if="qObject.Properties.MediaPath && qObject.Properties.MediaType == '1' && (qObject.Properties.MediaPosition == 'up' ||  !qObject.Properties.MediaPosition) " src="{{qObject.Properties.MediaPath}}"/>
+                <audio controls class="maxSize" ng-if="qObject.Properties.MediaPath && qObject.Properties.MediaType == '2' && (qObject.Properties.MediaPosition == 'up' ||  !qObject.Properties.MediaPosition) " src="{{qObject.Properties.MediaPath}}">
+                        <source src="{{qObject.Properties.MediaPath | trusted}}" type="audio/mpeg">
+                </audio>
+                <video controls video-on-load class="maxSize" ng-if="qObject.Properties.MediaPath && qObject.Properties.MediaType == '3' && (qObject.Properties.MediaPosition == 'up' ||  !qObject.Properties.MediaPosition) ">
+                        <source src="{{qObject.Properties.MediaPath | trusted}}" type="video/mp4">
+                </video>
+            </div>
+
+        <div ng-if="qObject.Text[language] != undefined"  bind-html-compile="qObject.Text[language]"></div>
+        <div ng-if="qObject.Text[language] == undefined"  bind-html-compile="qObject.Text[DefaultLanguage]"></div>
+
+        <img image-on-load class="maxSize" ng-if="qObject.Properties.MediaPath && qObject.Properties.MediaType == '1' && qObject.Properties.MediaPosition == 'down'" src="{{qObject.Properties.MediaPath}}"/>
+        <audio controls class="maxSize" ng-if="qObject.Properties.MediaPath && qObject.Properties.MediaType == '2' && qObject.Properties.MediaPosition == 'down'" src="{{qObject.Properties.MediaPath}}">
+                <source src="{{qObject.Properties.MediaPath | trusted}}" type="audio/mpeg">
+        </audio>
+        <video controls video-on-load  ng-if="qObject.Properties.MediaPath && qObject.Properties.MediaType == '3' && qObject.Properties.MediaPosition == 'down'">
+                <source src="{{qObject.Properties.MediaPath | trusted}}" type="video/mp4">
+        </video>
+</div>
+
+    </div>
+    <!--Variable Container-->
+    <div class="sv-container">
+        <div><span style="color: red" ng-if="ShowMandatoryStar && !AnswerInvalid" class="font-75">*This field is mandatory</span></div>
+      
+        <survey-variable ng-repeat="item in qObject.QuestionLevelSequence" variable="qObject.Variables[item.ID]">
+            <div class="sg-container">
+                <div ng-if="variable.VariableType == 4">
+                    <span ng-if="variable.Properties.Prefix != ''" class="survey-option-text display-inline-block">{{variable.Properties.Prefix}}</span>
+                    <input id="{{variable.Name}}" ng-class="{'border-all':variable.Properties.ShowFullBorder == 'true', 'border-red':(SelectedValues.single < variable.Properties.Min || SelectedValues.single > variable.Properties.Max) && SelectedValues.single}" class="input-txt focusableInput" type="number" ng-model="SelectedValues.single" placeholder="{{Placeholder}}" ng-blur="OnBlurSave(SelectedValues.single)">
+                    <span ng-if="variable.Properties.Suffix != ''" class="survey-option-text display-inline-block">{{variable.Properties.Suffix}}</span>
+                </div>
+                <div ng-if="SelectedValues.single && HideOkButton != 'true' && variable.VariableType == 4">
+                <div  class="button nav enabled  display-inline-block" ng-click="SaveAnswer(SelectedValues.single)">
+                    <span>{{(Buttons['Ok'][Language] || Buttons['Ok'][DefaultLanguage])}} <i class="fa fa-check"></i></span>
+                </div>
+                <!-- <div class="text display-inline-block" ng-if="!isMobileDevice">press <strong>ENTER</strong></div> -->
+            </div>
+            </div>
+
+                <survey-options ng-if="variable.VariableType == 1"></survey-options>
+                <!-- <span class="error" ng-if="!valid">*Invalid Input</span> -->
+                <!-- <span class="error max-min" ng-if="!valid && ((variable.Properties.Min && answerInput < variable.Properties.Min) || (variable.Properties.Max && answerInput > variable.Properties.Max))">(Min: {{variable.Properties.Min}}, Max: {{variable.Properties.Max}})</span> -->
+            </div>
+        </survey-variable>
+    </div>
+</div>

@@ -1,0 +1,34 @@
+<div class="card center-div">
+    <!--Question Container-->
+    <div class="sq-container" error-tool-tip error-config="ErrorConfig">
+        <div ng-if="ShowQuestionNumber" class="sq-name table-cell">{{qObject.Name}}</div>
+        <div class="sq-text table-cell display-block">
+                <div><img image-on-load class="maxSize" ng-if="qObject.Properties.MediaPath && qObject.Properties.MediaType == '1' && (qObject.Properties.MediaPosition == 'up' ||  !qObject.Properties.MediaPosition) " src="{{qObject.Properties.MediaPath}}"/>
+                <audio controls class="maxSize" ng-if="qObject.Properties.MediaPath && qObject.Properties.MediaType == '2' && (qObject.Properties.MediaPosition == 'up' ||  !qObject.Properties.MediaPosition) " src="{{qObject.Properties.MediaPath}}">
+                        <source src="{{qObject.Properties.MediaPath | trusted}}" type="audio/mpeg">
+                </audio>
+                <video controls video-on-load class="maxSize" ng-if="qObject.Properties.MediaPath && qObject.Properties.MediaType == '3' && (qObject.Properties.MediaPosition == 'up' ||  !qObject.Properties.MediaPosition) ">
+                        <source src="{{qObject.Properties.MediaPath | trusted}}" type="video/mp4">
+                </video>
+            </div>
+        <div ng-if="qObject.Text[language] != undefined"  bind-html-compile="qObject.Text[language]"></div>
+        <div ng-if="qObject.Text[language] == undefined" bind-html-compile="qObject.Text[DefaultLanguage]"></div>
+        <img image-on-load class="maxSize" ng-if="qObject.Properties.MediaPath && qObject.Properties.MediaType == '1' && qObject.Properties.MediaPosition == 'down'" src="{{qObject.Properties.MediaPath}}"/>
+        <audio controls class="maxSize" ng-if="qObject.Properties.MediaPath && qObject.Properties.MediaType == '2' && qObject.Properties.MediaPosition == 'down'" src="{{qObject.Properties.MediaPath}}">
+                <source src="{{qObject.Properties.MediaPath | trusted}}" type="audio/mpeg">
+        </audio>
+        <video controls video-on-load  ng-if="qObject.Properties.MediaPath && qObject.Properties.MediaType == '3' && qObject.Properties.MediaPosition == 'down'">
+                <source src="{{qObject.Properties.MediaPath | trusted}}" type="video/mp4">
+        </video>
+</div>
+    </div>
+    <div><span style="color: red" ng-if="ShowMandatoryStar && !AnswerInvalid" class="font-75"><b>*This field is mandatory</b></span></div>
+    <div><span style="color: red" ng-if="ShowMandatoryStar && AnswerInvalid && RankMessage != 'Incorrect value entered'" class="font-75"><b>*{{RankMessage}}</b></span></div>
+    <!--Variable Container-->
+    <div class="sv-container">
+
+        <!--Rank-->
+        <survey-rank></survey-rank>
+
+    </div>
+</div>

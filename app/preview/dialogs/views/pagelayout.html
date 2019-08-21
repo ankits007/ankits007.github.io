@@ -1,0 +1,80 @@
+<md-dialog ng-cloak class="collection-style surveyBuilder font-size" flex="50">
+    <md-toolbar>
+		<div class="md-toolbar-tools">
+			<span><!-- For Icon --></span>
+			<h3>Page Layout</h3>
+			<span flex></span>
+			<span ng-click="Cancel()"><md-icon class="ng-scope ng-isolate-scope md-default-theme small-icon marginZero"  md-svg-src="project/app/components/collections/assets/svg/close.svg"></md-icon>
+		</div>
+	</md-toolbar>
+
+    <md-dialog-content class="paddingZero">
+        <div layout="column" flex>
+            <span class="sectionHdr">Survey Elements</span>
+            <div layout="column" class="padding-5" style="padding:15px;">
+            <div layout="row">
+                    <div layout="row" flex="45" layout-align="center center">
+                         <span flex="30">Next Button</span>
+                        <input flex="60" type="text" ng-model="NextButtonText" ng-blur="OnNextButtonTextChanged()" class="input-txt"/>
+                    </div>
+                    <div flex="10"></div>
+                    <div layout="row" flex="45" layout-align="center center">
+                          <span flex="30">Progress Bar</span>
+                        <select flex="60" class="dropdown"></select>
+                </div>
+                    </div>
+            <div layout="row">
+                      <div layout="row" flex="45" layout-align="center center">
+                           <span flex="30">Back Button</span>
+                        <input flex="60" type="text" ng-model="BackButtonText" ng-blur="OnBackButtonTextChanged()" class="input-txt"/>
+                </div>
+                      <div flex="10"></div>
+                      <div layout="row" flex="45">
+                          <label class="check">
+                              
+                                <input id="seperator" type="checkbox" flex="40" ng-model="ShowSeperator" ng-change="ChangeShowSeperatorState()"/>
+                               <label for="seperator">Show Seperator</label>   
+                                                    </label>                         
+                           
+                    </div>
+                </div>
+            </div>
+                <span class="sectionHdr" flex>Advanced</span>
+            <div layout="row" class="padding-5" style="padding:15px;">
+                <input flex="45" type="text" placeholder="Header" ng-model="HeaderText" ng-blur="HeaderChanged()" class="input-txt"/>
+                <div flex="10"></div>
+                <input flex="45" type="text" placeholder="Footer" ng-model="FooterText" ng-blur="FooterChanged()" class="input-txt"/>
+            </div>
+            <div layout="row" class="padding-5" style="padding:15px;">
+                <div flex="30">
+                    <img src="" style="width:150px;height:100px" />
+                </div>
+                <div flex="70" layout="column">
+                      <label class="check">
+                        <input id="title" type="checkbox"/>
+                        <label for="title" style="width:300px;">Use my own logo[Logo size max 150px by 30px]</label>
+                     </label>
+                    <input type="file" />
+                </div>
+            </div>
+            <div layout="row" flex class="padding-5" style="padding:15px;">
+                 <label class="check">
+                        <input id="Checkbox1" type="checkbox"/>
+                        <label for="Checkbox1">Hide RebusCloud Logo</label>
+                     </label>
+            </div>
+        </div>
+          
+           
+            
+     
+    </md-dialog-content>
+
+    <md-dialog-content>
+        <md-dialog-actions layout="row" layout-align="end center">
+            <md-button class="md-raised md-delete" ng-click="Cancel()">Close</md-button>
+            <md-button class="md-raised md-primary" ng-click="setLayout()">Set</md-button>
+          
+        </md-dialog-actions>
+    </md-dialog-content>
+</md-dialog>

@@ -1,0 +1,34 @@
+<md-dialog ng-cloak class="collection-style surveyBuilder font-size" flex="50">
+    <md-toolbar>
+		<div class="md-toolbar-tools">
+			<span><!-- For Icon --></span>
+			<h3>Chose your Survey Style</h3>
+			<span flex></span>
+			<span ng-click="Cancel()"><md-icon class="ng-scope ng-isolate-scope md-default-theme small-icon marginZero"  md-svg-src="project/app/components/collections/assets/svg/close.svg"></md-icon>
+		</div>
+	</md-toolbar>
+
+    <md-dialog-content class="paddingZero marginZero">
+        <div layout="column">
+           <!-- <span class="sectionHdr"></span>-->
+            <div flex layout="row" class="marginLeftRight marginTopBottom padding-Top">
+                <ul flex class="marginZero paddingZero surveyTheme">
+                     <li ng-click="ChangeSurveyStyle('label_light', $event)" class="clickable">Modern  -  Light</li>
+                     <li ng-click="ChangeSurveyStyle('label_dark', $event)" class="clickable">Modern  -  Dark</li>
+                     <li ng-click="ChangeSurveyStyle('radio_light', $event)" class="clickable">Traditional  -  Light</li>
+                     <li ng-click="ChangeSurveyStyle('radio_dark', $event)" class="clickable">Traditional  -  Dark</li>
+                </ul>
+<!--                <span flex  style="display: inline-block; width: 70px; height: 70px; border: 1px solid #e4e4e4; margin: 5px;padding:5px;">Options as Radio and Checkboxes</span>
+                <span flex  style="display: inline-block; width: 70px; height: 70px; border: 1px solid #e4e4e4; margin: 5px;padding:5px;">Options as Lables</span>-->
+            </div>
+        </div>
+    </md-dialog-content>
+
+    <md-dialog-content>
+        <md-dialog-actions layout="row" layout-align="end center">
+              <md-button class="md-raised md-delete" ng-click="Cancel()">Close</md-button>
+            <md-button class="md-raised md-primary" ng-click="setStyle()">Set</md-button>
+          
+        </md-dialog-actions>
+    </md-dialog-content>
+</md-dialog>

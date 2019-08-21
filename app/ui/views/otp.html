@@ -1,0 +1,74 @@
+<div class="card center-div">
+    <!--Question Container-->
+    <div class="sq-container" error-tool-tip error-config="ErrorConfig">
+        <div id="ques" ng-if="ShowQuestionNumber" class="sq-name table-cell">{{qObject.Name}}</div>
+        <div class="sq-text table-cell display-block">
+                <div><img image-on-load class="maxSize" ng-if="qObject.Properties.MediaPath && qObject.Properties.MediaType == '1' && (qObject.Properties.MediaPosition == 'up' ||  !qObject.Properties.MediaPosition) " src="{{qObject.Properties.MediaPath}}"/>
+                <audio controls class="maxSize" ng-if="qObject.Properties.MediaPath && qObject.Properties.MediaType == '2' && (qObject.Properties.MediaPosition == 'up' ||  !qObject.Properties.MediaPosition) " src="{{qObject.Properties.MediaPath}}">
+                        <source src="{{qObject.Properties.MediaPath | trusted}}" type="audio/mpeg">
+                </audio>
+                <video controls video-on-load class="maxSize" ng-if="qObject.Properties.MediaPath && qObject.Properties.MediaType == '3' && (qObject.Properties.MediaPosition == 'up' ||  !qObject.Properties.MediaPosition) ">
+                        <source src="{{qObject.Properties.MediaPath | trusted}}" type="video/mp4">
+                </video>
+            </div>
+        <div ng-if="qObject.Text[language] != undefined"  bind-html-compile="qObject.Text[language]"></div>
+        <div ng-if="qObject.Text[language] == undefined"  bind-html-compile="qObject.Text[DefaultLanguage]"></div>
+        <img image-on-load class="maxSize" ng-if="qObject.Properties.MediaPath && qObject.Properties.MediaType == '1' && qObject.Properties.MediaPosition == 'down'" src="{{qObject.Properties.MediaPath}}"/>
+        <audio controls class="maxSize" ng-if="qObject.Properties.MediaPath && qObject.Properties.MediaType == '2' && qObject.Properties.MediaPosition == 'down'" src="{{qObject.Properties.MediaPath}}">
+                <source src="{{qObject.Properties.MediaPath | trusted}}" type="audio/mpeg">
+        </audio>
+        <video controls video-on-load  ng-if="qObject.Properties.MediaPath && qObject.Properties.MediaType == '3' && qObject.Properties.MediaPosition == 'down'">
+                <source src="{{qObject.Properties.MediaPath | trusted}}" type="video/mp4">
+        </video>
+</div>
+</div>
+    <!--Variable Container-->
+    <div class="sv-container">
+        <div><span style="color: red" ng-if="ShowMandatoryStar && AnswerInvalid">*Invalid Input</span></div>
+        <div>{{otpMessage}}</div>
+        <ul>
+            <li>
+                <survey-variable ng-repeat="item in qObject.QuestionLevelSequence" variable="qObject.Variables[item.ID]" ng-if="qObject.Variables[item.ID].VariableType == 3">
+
+                    <div class="sg-container">
+                        <!-- <input ng-if="variable.Properties.RegexType == 'Telephone' || variable.Properties.RegexType == 'Postal'" placeholder="{{RegexExample}}" class="input-txt darkBdr"  type="number" ng-model="answerInput" ng-blur="SaveAnswer(answerInput)" /> -->
+                        <input  id="{{variable.Name}}" ng-class="{'border-all':variable.Properties.ShowFullBorder, 'border-red':SelectedValues.single.length < variable.Properties.Min && SelectedValues.single }"
+                            maxlength="{{variable.Properties.Max}}" variableName="{{variable.Name}}" placeholder="{{Placeholder}}"
+                            class="focusableInput darkBdr input-txt full-width" type="text" ng-model="SelectedValues.single"
+                            ng-blur="OnBlurSave(SelectedValues.single)" />
+                    </div>
+                </survey-variable>
+            </li>
+
+        </ul>
+        <ul>
+            <li ng-class="{'disabled':VerifiedQuestionOTPMap[qObject.ID] || SendClicked}" class="btnOTP" ng-click="SendOTP()">Send OTP</li>
+            <li>Didn't receive OTP? <span ng-class="{'disabled':VerifiedQuestionOTPMap[qObject.ID]}" ng-click="SendOTP()" style="font-size: 14px;
+                margin-left: 10px;
+                color: #2196F3;
+                text-decoration: underline;" class="clickable">Resend OTP</span></li>
+
+        </ul>
+        <span class="clearfix"></span>
+        <ul>
+            <li> Please enter the 6 Digit OTP sent to your mobile number</li>
+        </ul>
+        <ul class=" otp-container">
+            <li>
+                <input ng-disabled="VerifiedQuestionOTPMap[qObject.ID]" type="number" id="1" tabindex="5" ng-model="EnteredOTP[0]" maxlength="1"
+                    ng-keyup="ShiftFocus($event)" class="input-txt" />
+                <input ng-disabled="VerifiedQuestionOTPMap[qObject.ID]" type="number" id="2" tabindex="6" ng-model="EnteredOTP[1]" maxlength="1"
+                    ng-keyup="ShiftFocus($event)" class="input-txt" />
+                <input ng-disabled="VerifiedQuestionOTPMap[qObject.ID]" type="number" id="3" tabindex="7" ng-model="EnteredOTP[2]" maxlength="1"
+                    ng-keyup="ShiftFocus($event)" class="input-txt" />
+                <input ng-disabled="VerifiedQuestionOTPMap[qObject.ID]" type="number" id="4" tabindex="8" ng-model="EnteredOTP[3]" maxlength="1"
+                    ng-keyup="ShiftFocus($event)" class="input-txt" />
+                <input ng-disabled="VerifiedQuestionOTPMap[qObject.ID]" type="number" id="5" tabindex="9" ng-model="EnteredOTP[4]" maxlength="1"
+                    ng-keyup="ShiftFocus($event)" class="input-txt" />
+                <input ng-disabled="VerifiedQuestionOTPMap[qObject.ID]" type="number" id="6" tabindex="10" ng-model="EnteredOTP[5]" maxlength="1"
+                    class="input-txt" />
+            </li>
+            <li class="btnOTP" ng-click="VerifyOTP()" ng-class="{'disabled':VerifiedQuestionOTPMap[qObject.ID]}">Verify OTP</li>
+        </ul>
+    </div>
+</div>

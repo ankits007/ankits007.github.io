@@ -1,0 +1,138 @@
+<md-dialog ng-cloak class="collection-style surveyBuilder font-size" flex="50">
+	<md-toolbar>
+		<div class="md-toolbar-tools">
+			<span><!-- For Icon --></span>
+			<h3>Create your own theme</h3>
+			<span flex></span>
+			<span ng-click="Cancel()"><md-icon class="ng-scope ng-isolate-scope md-default-theme small-icon marginZero"  md-svg-src="project/app/components/collections/assets/svg/close.svg"></md-icon>
+		</div>
+	</md-toolbar>
+
+    <md-dialog-content class="paddingZero">
+        <div layout="column" flex>
+            <div layout="row">
+                <div flex="40" layout="column">
+                    <div class="sectionHdr" style="margin-top:0px!important">Color Schemes</div>    
+                            
+                    <div layout="column" class="padding-5" layout-align="center center">
+                        <div layout="column">                           
+                              <div layout="row" class="padding-5" ng-click="ChangeColorTheme('ct1')">
+                               <div class="marginRight" flex="45">Aqua - </div>
+                               <span style="display: inline-block; width: 20px; height: 20px; background-color: #5AC4C4"></span>
+                               <span style="display: inline-block; width: 20px; height: 20px; background-color: #EAF9FA"></span>
+                               <span style="display: inline-block; width: 20px; height: 20px; background-color: #02A5A5"></span>
+                               <span style="display: inline-block; width: 20px; height: 20px; background-color: #025A5A"></span>
+                               <span style="display: inline-block; width: 20px; height: 20px; background-color: #02A5A5"></span>
+                          </div>
+                             <div layout="row" class="padding-5" ng-click="ChangeColorTheme('ct2')">     
+                                <div class="marginRight" flex="45">Gray - </div>                
+                                <span style="display: inline-block; width: 20px; height: 20px; background-color: #f9f9f9"></span><!--Bg color-->
+                                <span style="display: inline-block; width: 20px; height: 20px; background-color: #DDDDDD"></span><!--option-->
+                                <span style="display: inline-block; width: 20px; height: 20px; background-color: #333333"></span><!--selection-->
+                                <span style="display: inline-block; width: 20px; height: 20px; background-color: #777777"></span><!--button-->
+                                <span style="display: inline-block; width: 20px; height: 20px; background-color: #333333"></span> <!--header-->
+                    </div>
+                          
+                            <div layout="row" class="padding-5" ng-click="ChangeColorTheme('ct3')">
+                                 <div class="marginRight" flex="45">Green - </div>
+                                <span style="display: inline-block; width: 20px; height: 20px; background-color: #9CC5A1"></span>
+                                <span style="display: inline-block; width: 20px; height: 20px; background-color: #DCE1DE"></span>
+                                <span style="display: inline-block; width: 20px; height: 20px; background-color: #216869"></span>
+                                <span style="display: inline-block; width: 20px; height: 20px; background-color: #26A96C"></span>
+                                 <span style="display: inline-block; width: 20px; height: 20px; background-color: #1F2421"></span>
+                    </div>
+                           
+                          <div layout="row" class="padding-5" ng-click="ChangeColorTheme('ct4')">  
+                               <div class="marginRight" flex="45">Simple - </div>                    
+                                <span style="display: inline-block; width: 20px; height: 20px; background-color: #E54B4B"></span>
+                                <span style="display: inline-block; width: 20px; height: 20px; background-color: #F7EBE8"></span>
+                                <span style="display: inline-block; width: 20px; height: 20px; background-color: #FFA987"></span>
+                                <span style="display: inline-block; width: 20px; height: 20px; background-color: #646E68"></span>                              
+                                <span style="display: inline-block; width: 20px; height: 20px; background-color: #1E1E24"></span>
+                        </div>
+                              
+                             <div layout="row" class="padding-5" ng-click="ChangeColorTheme('ct5')">     
+                                  <div class="marginRight" flex="45">Purple Green - </div>                  
+                                <span style="display: inline-block; width: 20px; height: 20px; background-color: #F3F9D2"></span>
+                                <span style="display: inline-block; width: 20px; height: 20px; background-color: #CBEAA6"></span>
+                                <span style="display: inline-block; width: 20px; height: 20px; background-color: #C0D684"></span>
+                                <span style="display: inline-block; width: 20px; height: 20px; background-color: #8F2D56"></span>
+                                   <span style="display: inline-block; width: 20px; height: 20px; background-color: #44001A"></span>
+                    </div>
+                            
+                             <div layout="row" class="padding-5" ng-click="ChangeColorTheme('ct6')">  
+                                  <div class="marginRight" flex="45">Tertiary - </div>                     
+                                <span style="display: inline-block; width: 20px; height: 20px; background-color: #FADE8E"></span>
+                                <span style="display: inline-block; width: 20px; height: 20px; background-color: #ffffff"></span>
+                                <span style="display: inline-block; width: 20px; height: 20px; background-color: #FEF5DC"></span>
+                                <span style="display: inline-block; width: 20px; height: 20px; background-color: #F8CD51"></span>
+                                <span style="display: inline-block; width: 20px; height: 20px; background-color: #C49735"></span>
+                    </div>
+                    </div>
+                    </div>
+               
+                </div>
+                <md-divider></md-divider>
+                <div layout="column" flex="60">
+                      <div class="sectionHdr" style="margin-top:0px!important">Colors</div>
+                    <div layout="column" class="padding-5">                        
+                        <div layout="row">
+                             <span flex="80" style="line-height:40px;">Survey Background</span> 
+                             <input type="color" style="padding-left: 5px;border: 1px solid rgb(228, 228, 228);width:40px;height: 40px;margin:2px;border-radius:2px;-webkit-appearance:none;" ng-model="backgroundColor" ng-change="colorChange()" />                        
+                        </div>
+                         <div layout="row">
+                              <span flex="80" style="line-height:40px;">Choice</span> 
+                             <input type="color" style="padding-left: 5px;border: 1px solid rgb(228, 228, 228);width: 40px;height: 40px;margin:2px;border-radius:2px;" ng-model="choiceColor" ng-change="colorChange()"/>                         
+                         </div>
+                         <div layout="row">
+                             <span flex="80" style="line-height:40px;">Selection</span>
+                              <input type="color" style="padding-left: 5px;border: 1px solid rgb(228, 228, 228);width: 40px;height: 40px;margin:2px;border-radius:2px;" ng-model="selectionColor" ng-change="colorChange()" />                          
+                         </div>               
+                         <div layout="row">
+                              <span flex="80" style="line-height:40px;">Button Background</span> 
+                              <input type="color" style="padding-left: 5px;border: 1px solid rgb(228, 228, 228);width: 40px;height: 40px;margin:2px;border-radius:2px;" ng-model="buttonColor" ng-change="colorChange()"/>                       
+                         </div>
+                         <div layout="row">
+                                <span flex="80" style="line-height:40px;">Button Text Color</span> 
+                                <input type="color" style="padding-left: 5px;border: 1px solid rgb(228, 228, 228);width: 40px;height: 40px;margin:2px;border-radius:2px;" ng-model="buttonTxtColor" ng-change="colorChange()"/>                       
+                           </div>
+                          <div layout="row">
+                               <span flex="80" style="line-height:40px;">Section Header</span>
+                               <input type="color" style="padding-left: 5px;border: 1px solid rgb(228, 228, 228);width: 40px;height: 40px;margin:2px;border-radius:2px;" ng-model="sectionHeaderColor" ng-change="colorChange()"/>                       
+                          </div>
+                          <div layout="row">
+                                <span flex="80" style="line-height:40px;">Question Text</span> 
+                               <input type="color" style="padding-left: 5px;border: 1px solid rgb(228, 228, 228);width: 40px;height: 40px;margin:2px;border-radius:2px;" ng-model="questionTextColor" ng-change="colorChange()"/>                          
+                          </div>
+                      </div>
+                 </div>
+            </div>
+            <div flex>
+                <div class="sectionHdr" flex>Advanced</div>
+                <div layout="row" class="padding-5">
+                    <div flex="50">
+                        <span>Font :</span>
+                        <select ng-model="FontSelected" ng-change="colorChange()" class="dropdown dropdown-sm">
+                            <option ng-repeat="font in FontOptions" ng-value="font">{{font}}</option>
+                        </select>
+                        <select ng-model="FontSizeSelected" ng-change="colorChange()" class="dropdown dropdown-sm" style="width:80px;">
+                            <option ng-repeat="fontSize in FontSizeOptions" ng-value="fontSize">{{fontSize}}</option>
+                        </select>
+                    </div>
+                    <div flex="30">
+                        <span>Apply Custom CSS :</span>
+                        <input type="file" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </md-dialog-content>
+
+    <md-dialog-content>
+        <md-dialog-actions layout="row" layout-align="end center">
+             <md-button class="md-raised md-delete" ng-click="Cancel()">Close</md-button>
+            <md-button class="md-raised md-primary" ng-click="ApplyFontProperties()">Set</md-button>
+           
+        </md-dialog-actions>
+    </md-dialog-content>
+</md-dialog>

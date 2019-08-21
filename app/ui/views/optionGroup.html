@@ -1,0 +1,25 @@
+<div class="sg-container" ng-class="{'opt-horizontal' : !showOptionLabel}">
+    <div class="sg-name" ng-if="!optionGroup.IsDefault" bind-html-compile="optionGroup.Text[language]"></div>
+
+    <div ng-repeat="optionID in optionGroup.OptionSequence" ng-switch="type" ng-class="{'option-indent' : !optionGroup.IsDefault}">
+        <div ng-switch-when="1">
+            <label class="form-radio">
+            <input type="radio" name="{{GetGroupName()}}" ng-model="SelectedValues.single" ng-value="optionGroup.Options[optionID].Code" ng-change="SaveSingle()" />
+            <i class="form-icon"></i> 
+            <img ng-if="optionGroup.Options[optionID].Media.hasOwnProperty('src')" src="{{optionGroup.Options[optionID].Media.src}}" alt="{{optionGroup.Options[optionID].Media.altText}}" height="{{optionGroup.Options[optionID].Media.height}}" width="{{optionGroup.Options[optionID].Media.width}}">
+            <span class="survey-option-text" ng-if="showOptionLabel" bind-html-compile="optionGroup.Options[optionID].Text[language]"></span>
+            <span class="survey-option-text" ng-if="!showOptionLabel">'&nbsp;'</span>
+        </label>
+            <input class="form-input" type="{{OtherVariableType}}" ng-if="optionGroup.Options[optionID].IsOther && (SelectedValues.single == optionGroup.Options[optionID].Code)" ng-keyup="saveOtherValue(optionGroup.Options[optionID])" ng-model="OtherAnswer.Value[optionGroup.Options[optionID].Code]">
+        </div>
+        <div  ng-switch-when="2">        
+            <label class="form-checkbox">
+            <input type="checkbox" ng-model="SelectedValues[optionGroup.Options[optionID].Code]" ng-value="optionGroup.Options[optionID].Code" ng-click="ToggelOption(optionGroup.Options[optionID])" />
+            <i class="form-icon"></i> 
+            <img ng-if="optionGroup.Options[optionID].Media.hasOwnProperty('src')" src="{{optionGroup.Options[optionID].Media.src}}" alt="{{optionGroup.Options[optionID].Media.altText}}" height="{{optionGroup.Options[optionID].Media.height}}" width="{{optionGroup.Options[optionID].Media.width}}">
+            <span class="survey-option-text" bind-html-compile="optionGroup.Options[optionID].Text[language]"></span>
+        </label>
+            <input class="form-input" type="{{OtherVariableType}}" ng-show="optionGroup.Options[optionID].IsOther && SelectedValues[optionGroup.Options[optionID].Code]" ng-keyup="saveOtherValue(optionGroup.Options[optionID])" ng-model="OtherAnswer.Value[optionGroup.Options[optionID].Code]">
+        </div>
+    </div>
+</div>

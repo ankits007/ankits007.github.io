@@ -1,0 +1,137 @@
+<div class="hide-default">
+    <div ng-switch="variable.VariableType" ng-if="!isGridOptions" ng-class="{'otherOption':variable.Options[OptionId].IsOther}">
+
+        <div ng-switch-when="1">
+            <!--radio plus label -->
+            <label class="form-radio" ng-if="OptionLayout == 1 && variable.Properties.ShowAs != '14'" ng-click="SingleSelectOption()">
+                <input type="radio" name="{{variable.Name}}" ng-model="SelectedValues.single" value="{{variable.Options[OptionId].Code}}"/>
+                <i class="form-icon"></i> 
+                <span class="survey-option-text" ng-if="showOptionLabel && variable.Options[OptionId].Text[Language] != undefined" bind-html-compile="variable.Options[OptionId].Text[Language]"></span>
+                <span class="survey-option-text" ng-if="showOptionLabel && variable.Options[OptionId].Text[Language] == undefined" bind-html-compile="variable.Options[OptionId].Text[DefaultLanguage]"></span>
+                <input class="focusableInput otherInput" type="{{OtherVariableType[OptionId]}}" ng-if="variable.Options[OptionId].IsOther && (SelectedValues.single == variable.Options[OptionId].Code)"
+                ng-blur="saveOtherValue(variable.Options[OptionId])" placeholder="{{Placeholders['Other'][Language] || Placeholders['Other'][DefaultLanguage]}}" ng-model="OtherAnswer.Value[variable.Options[OptionId].Code]">
+
+            </label>
+            <!-- image plus label -->
+            <label ng-click="SingleSelectOption()" ng-class="{'selected':SelectedValues.single == OptionId}" ng-if="variable.Properties.ShowAs == '14'" style="display: block" class="imageInput">
+                <i class="icon icon-check pos-abs" ng-if="SelectedValues.single == OptionId" style="top:10px;right:5px;"></i> 
+                <div class="tick-wrapper" ng-if="SelectedValues.single == OptionId"></div> 
+                <div class="bd"></div> 
+                <div class="bg focusable"  id="{{::OptionId}}" ng-mouseenter="onmouseEnter($event)" ng-mouseleave="onmouseLeave($event)"></div>
+                <input  type="radio" name="{{variable.Name}}" ng-model="SelectedValues.single" value="{{variable.Options[OptionId].Code}}" />
+            <div class="imgContent">
+                <div class="input-img-mask image-wrapper wrapper100" ng-class="{'wrapper100':variable.Properties.ImageSize == 'dim100','wrapper50':variable.Properties.ImageSize == 'dim50','wrapper200':variable.Properties.ImageSize == 'dim200'}">
+                        <img ng-if="!(variable.Options[OptionId].Media[Language] || variable.Options[OptionId].Media[DefaultLanguage])" class="dim100" ng-class="{'dim100':variable.Properties.ImageSize == 'dim100','dim50':variable.Properties.ImageSize == 'dim50','dim200':variable.Properties.ImageSize == 'dim200'}" ng-src="{{variable.Options[OptionId].IsOther?'assets/images/other-image.png':'assets/images/default-image.png'}}"/>
+                        <img ng-if="(variable.Options[OptionId].Media[Language] || variable.Options[OptionId].Media[DefaultLanguage])" class="dim100" ng-class="{'dim100':variable.Properties.ImageSize == 'dim100','dim50':variable.Properties.ImageSize == 'dim50','dim200':variable.Properties.ImageSize == 'dim200'}" ng-src="{{variable.Options[OptionId].Media[Language]?variable.Options[OptionId].Media[Language]:variable.Options[OptionId].Media[DefaultLanguage]}}"/>
+                    <!-- <img class="dim100"  ng-class="{'dim100':variable.Properties.ImageSize == 'dim100','dim50':variable.Properties.ImageSize == 'dim50','dim200':variable.Properties.ImageSize == 'dim200'}" onError="this.onerror=null;this.src='./Project/app/Components/SE/assets/images/default.jpg';" ng-src="{{variable.Options[OptionId].Media[Language]?variable.Options[OptionId].Media[Language]:variable.Options[OptionId].Media[DefaultLanguage]}}" /> -->
+                    <!-- <img ng-src="{{variable.Options[OptionId].Media[Language]?variable.Options[OptionId].Media[Language]:variable.Options[OptionId].Media[DefaultLanguage]}}" onError="this.onerror=null;this.src='../../../assets/images/default-image.jpg';"  /> -->
+                    <div class="image-select-ovelay"></div>                   
+                </div>
+                <span class="survey-option-text" ng-if="showOptionLabel && variable.Options[OptionId].Text[Language] != undefined" bind-html-compile="variable.Options[OptionId].Text[Language]"></span>
+                <span class="survey-option-text" ng-if="showOptionLabel && variable.Options[OptionId].Text[Language] == undefined" bind-html-compile="variable.Options[OptionId].Text[DefaultLanguage]"></span>
+               
+
+            </div>
+           
+            </label>
+            <input class="focusableInput input-txt" placeholder="{{Placeholders['Other'][Language] || Placeholders['Other'][DefaultLanguage]}}" type="{{OtherVariableType[OptionId]}}" ng-if="variable.Options[OptionId].IsOther && (SelectedValues.single == variable.Options[OptionId].Code) && (variable.Properties.ShowAs == '14')"
+            ng-blur="saveOtherValue(variable.Options[OptionId])" ng-model="OtherAnswer.Value[variable.Options[OptionId].Code]">
+            <!--boxed label -->
+            <div ng-class="{'option-checked':SelectedValues.single == OptionId,'otherOption':variable.Options[OptionId].IsOther}"
+                ng-if="OptionLayout == 2 && variable.Properties.ShowAs != '14'" ng-click="SingleSelectOption($event)" class=" pos-rel option-as-label">
+                <i class="icon icon-check pos-abs" ng-if="SelectedValues.single == OptionId" style="top:10px;right:5px;"></i>
+                <div class="bd"></div>
+                <div class="bg focusable" id="{{::OptionId}}" ng-mouseenter="onmouseEnter($event)" ng-mouseleave="onmouseLeave($event)"></div>
+                <span class="survey-option-text" ng-if="variable.Options[OptionId].Text[Language] != undefined" bind-html-compile="variable.Options[OptionId].Text[Language]"></span>
+                <span class="survey-option-text" ng-if="variable.Options[OptionId].Text[Language] == undefined" bind-html-compile="variable.Options[OptionId].Text[DefaultLanguage]"></span>
+                <i class="icon icon-edit pos-abs" style="top:10px;right:5px;" ng-if="variable.Options[OptionId].IsOther"></i>
+            </div>
+            <input class="focusableInput input-txt" type="{{OtherVariableType[OptionId]}}" ng-if="OptionLayout == 2 && variable.Properties.ShowAs != '14' && variable.Options[OptionId].IsOther && (SelectedValues.single == variable.Options[OptionId].Code)"
+            ng-blur="saveOtherValue(variable.Options[OptionId])" ng-model="OtherAnswer.Value[variable.Options[OptionId].Code]" placeholder="{{Placeholders['Other'][Language] || Placeholders['Other'][DefaultLanguage]}}" style="width: 100%;margin-top: 15px;">
+
+        </div>
+
+        <div ng-switch-when="2">
+            <!--checkbox plus label -->
+            <label ng-if="OptionLayout == 1 && variable.Properties.ShowAs != '15'" ng-class="{'form-radio':variable.Options[OptionId].IsExclusive,'form-checkbox':!variable.Options[OptionId].IsExclusive}">
+                <input  ng-disabled="MaxChoices == answers.length && !SelectedValues[OptionId]" type="checkbox" ng-model="SelectedValues[OptionId]" value="{{variable.Options[OptionId].Code}}" ng-change="MuiltiSelectOption(false, variable.Options[OptionId])" />
+                <i class="form-icon"></i> 
+                <span class="survey-option-text" ng-if="variable.Options[OptionId].Text[Language] != undefined" bind-html-compile="variable.Options[OptionId].Text[Language]"></span>
+                <span class="survey-option-text" ng-if="variable.Options[OptionId].Text[Language] == undefined" bind-html-compile="variable.Options[OptionId].Text[DefaultLanguage]"></span>
+            
+            <input class="focusableInput otherInput" type="{{OtherVariableType[OptionId]}}" ng-show="variable.Options[OptionId].IsOther && SelectedValues[variable.Options[OptionId].Code]"
+                   ng-blur="saveOtherValue(variable.Options[OptionId])" placeholder="{{Placeholders['Other'][Language] || Placeholders['Other'][DefaultLanguage]}}" ng-model="OtherAnswer.Value[variable.Options[OptionId].Code]"
+                   style="margin-top:5px">
+                </label>
+            <!-- image plus label -->
+            <label ng-if="variable.Properties.ShowAs == '15'" ng-class="{'selected':SelectedValues[OptionId]}" class="imageInput" style="display: block">
+                <input ng-disabled="MaxChoices == answers.length && !SelectedValues[OptionId]" type="checkbox" ng-model="SelectedValues[OptionId]" value="{{variable.Options[OptionId].Code}}" ng-change="MuiltiSelectOption(false, variable.Options[OptionId])"  />
+                <i class="icon icon-check pos-abs" ng-if="SelectedValues[OptionId]" style="right:5px;top:10px"></i>
+                <div class="tick-wrapper" ng-if="SelectedValues[OptionId]"></div> 
+                <div class="bd"></div> 
+                <div class="bg focusable"  id="{{::OptionId}}" ng-mouseenter="onmouseEnter($event)" ng-mouseleave="onmouseLeave($event)"></div>
+                <div class="imgContent">
+                <div class="input-img-mask image-wrapper wrapper100"  ng-class="{'wrapper100':variable.Properties.ImageSize == 'dim100','wrapper50':variable.Properties.ImageSize == 'dim50','wrapper200':variable.Properties.ImageSize == 'dim200'}">
+                    <img class="dim100"  ng-class="{'dim100':variable.Properties.ImageSize == 'dim100','dim50':variable.Properties.ImageSize == 'dim50','dim200':variable.Properties.ImageSize == 'dim200'}" onError="this.onerror=null;this.src='./Project/app/Components/SE/assets/images/default.jpg';" ng-src="{{variable.Options[OptionId].Media[Language]?variable.Options[OptionId].Media[Language]:variable.Options[OptionId].Media[DefaultLanguage]}}" />
+                    <div class="image-select-ovelay"></div>
+                </div>
+                <span class="survey-option-text" ng-if="variable.Options[OptionId].Text[Language] != undefined" bind-html-compile="variable.Options[OptionId].Text[Language]"></span>
+                <span class="survey-option-text" ng-if="variable.Options[OptionId].Text[Language] == undefined" bind-html-compile="variable.Options[OptionId].Text[DefaultLanguage]"></span>
+               
+                </div>
+            </label>
+            <input class="focusableInput input-txt darkBdr" type="{{OtherVariableType[OptionId]}}" ng-show="variable.Options[OptionId].IsOther && SelectedValues[variable.Options[OptionId].Code] && variable.Properties.ShowAs == '15'"
+            ng-blur="saveOtherValue(variable.Options[OptionId])" ng-model="OtherAnswer.Value[variable.Options[OptionId].Code]"
+            style="margin-top:5px" placeholder="{{Placeholders['Other'][Language] || Placeholders['Other'][DefaultLanguage]}}">
+            <!-- labeled  option in modern view -->
+            <fieldset ng-disabled="MaxChoices == answers.length && !SelectedValues[OptionId]" ng-class="{'option-checked':SelectedValues[OptionId]}"
+                ng-if="OptionLayout == 2 && variable.Properties.ShowAs != '15'" ng-click="MuiltiSelectOption(true, variable.Options[OptionId], $event)" class="pos-rel option-as-label">
+                <i class="icon icon-check pos-abs" ng-if="SelectedValues[OptionId]" style="right:5px;top:10px"></i>
+                <div class="bd"></div>
+                <div class="bg focusable" id="{{::OptionId}}" ng-mouseenter="onmouseEnter($event)" ng-mouseleave="onmouseLeave($event)"></div>
+                <span ng-if="variable.Options[OptionId].Text[Language] != undefined" class="survey-option-text" bind-html-compile="variable.Options[OptionId].Text[Language]"></span>
+                <span ng-if="variable.Options[OptionId].Text[Language] == undefined" class="survey-option-text" bind-html-compile="variable.Options[OptionId].Text[DefaultLanguage]"></span>
+            </fieldset >
+                <input class="focusableInput input-txt darkBdr" type="{{OtherVariableType[OptionId]}}" ng-class="{'otherOption':variable.Options[OptionId].IsOther}" ng-show="variable.Options[OptionId].IsOther && SelectedValues[variable.Options[OptionId].Code] && OptionLayout == 2 && variable.Properties.ShowAs != '15'"
+                ng-blur="saveOtherValue(variable.Options[OptionId])" ng-model="OtherAnswer.Value[variable.Options[OptionId].Code]"
+                style="margin-top:15px;width:100%" placeholder="{{Placeholders['Other'][Language] || Placeholders['Other'][DefaultLanguage]}}">
+
+        </div>
+
+    </div>
+
+    <div ng-switch="variable.VariableType" class="option-container" ng-if="isGridOptions">
+        <div ng-switch-when="1" style="position:relative;">
+            <!--<div style="visibility: hidden">{{variable.Options[OptionId].Text[Language]}}</div> -->
+            <div ng-class="{'grid-options': variable.Properties.Orientation == 'Horizontal'}">
+                <label class="form-radio" ng-click="SingleSelectOption()">
+                    <input type="radio" name="{{variable.Name}}" ng-model="SelectedValues.single" value="{{variable.Options[OptionId].Code}}" />
+                    <i class="form-icon input-button-center"></i> 
+                    <span >&nbsp;</span>
+
+                </label>
+            </div>
+
+            <input type="text" class="focusableInput input-txt darkBdr" ng-if="variable.Options[OptionId].IsOther && SelectedValues.single == variable.Options[OptionId].Code"
+                ng-blur="saveOtherValue(variable.Options[OptionId])" ng-model="OtherAnswer.Value[variable.Options[OptionId].Code]"
+            />
+        </div>
+
+        <div ng-switch-when="2" style="position:relative">
+            <!-- <div style="visibility: hidden">{{variable.Options[OptionId].Text[Language]}}</div>-->
+            <div ng-class="{'grid-options': variable.Properties.Orientation == 'Horizontal'}">
+                <label ng-if="variable.Options[OptionId].IsExclusive" class="form-radio">
+                    <input type="checkbox" name="{{variable.Name}}" ng-model="SelectedValues[OptionId]" value="{{variable.Options[OptionId].Code}}" ng-change="MuiltiSelectOption(false, variable.Options[OptionId])" />
+                    <i class="form-icon input-button-center"></i> 
+                    <span style="visibility: hidden" >&nbsp;</span>
+                </label>
+
+                <label ng-if="!variable.Options[OptionId].IsExclusive" class="form-checkbox">
+                    <input type="checkbox" name="{{variable.Name}}" ng-model="SelectedValues[OptionId]" value="{{variable.Options[OptionId].Code}}" ng-change="MuiltiSelectOption(false, variable.Options[OptionId])" />
+                    <i class="form-icon input-button-center"></i> 
+                    <span style="visibility: hidden" >&nbsp;</span>
+                </label>
+            </div>
+        </div>
+    </div>
+</div>

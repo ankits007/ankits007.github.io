@@ -1,0 +1,20 @@
+<!-- <div>
+    <div ng-if="ShowOptions" style="text-align: center; font-size: 2em;">
+        <span>{{Options[OptionIndex].Text[Language]}}</span>
+    </div>
+
+    <br />
+    <div class="prev-next clickable" ng-if="ShowPlayButton" ng-click="Play()">Play <i class="fa fa-caret-right"></i></div>
+</div> -->
+
+<div id="win-canvasContainer">
+    <canvas id="win-canvas" width="350" height="380">
+        Canvas not supported, please user another browser.
+    </canvas>
+    <img id="win-prizePointer" src="app/ui/utils/win_pointer.png" alt="V" />
+    <div class="prev-next clickable" style="width: 350px" ng-if="ShowPlayButton" ng-click="Play()">Play <i class="fa fa-caret-right"></i></div>
+    <div ng-if="!ShowPlayButton" style="text-align: -webkit-center; width: 350px;">
+        <!-- <span>You have won </span> -->
+        <strong> {{Answer}}</strong>
+    </div>
+</div>

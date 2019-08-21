@@ -1,0 +1,15 @@
+<div class="sg-container">
+     <select  ng-model="SelectedValue" ng-change="SaveAnswer(SelectedValue)"  class="dropdown darkBdr">
+             <optgroup ng-repeat="group in variable.OptionGroupSequence" label="{{variable.OptionGroups[group].Text[Language]}}">                        
+                       <option ng-repeat="optionID in variable.OptionGroups[group].OptionSequence" value="{{variable.OptionGroups[group].Options[optionID].Code}}">
+                             {{variable.OptionGroups[group].Options[optionID].Text[Language]}}
+						</option>
+             </optgroup>
+     </select>
+     <div ng-repeat="group in variable.OptionGroupSequence">
+     	<div ng-repeat="optionID in variable.OptionGroups[group].OptionSequence">
+			<input class="input-txt darkBdr" type="{{OtherVariableType}}" ng-show="variable.OptionGroups[group].Options[optionID].IsOther && SelectedValue == variable.OptionGroups[group].Options[optionID].Code" ng-model="OtherAnswer.Value[SelectedValue]" ng-keyup="SaveOtherValue(SelectedValue, variable.OptionGroups[group].Options[optionID].OtherVariableID)" />
+     	</div>
+    </div>
+</div>
+      

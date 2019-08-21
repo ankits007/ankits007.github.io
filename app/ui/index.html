@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html ng-app="SurveyEngine">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="shortcut icon" href="images/favicon.ico" type="image/x-icon" />
+    <link rel="stylesheet" type="text/css" href="styles/spectre.min.css"></link>
+    <link rel="stylesheet" type="text/css" href="styles/engine.css"></link>
+
+    <title>Survey Engine</title>
+
+
+</head>
+
+<body ng-controller="MainController">
+
+    <div class="container">
+        <survey-question q-object="qData" language="en-us" class="surveyQues"></survey-question>
+
+        <div>{{Answers}}</div>
+
+        <!--<survey-question q-object="qData2" language="en-us"></survey-question>-->
+    </div>
+
+    <script src="lib/angular.min.js"></script>
+   
+    <script src="app.module.js"></script>
+    <script type="text/javascript" src="app/app.js"></script>
+    <script src="constants/enums.js"></script>
+    <script src="services/respondentService.js"></script>
+
+    <script src="directives/surveyQuestion.js"></script>
+    <script src="directives/surveyVariable.js"></script>
+    <script src="directives/surveyOptionGroup.js"></script>
+    <script src="directives/surveyGrid.js"></script>
+    <script src="directives/surveyGrid.optionWidth.js"></script>
+    <script src="directives/surveySingleSelect.js"></script>
+    <script src="directives/surveyMultiSelectBox.js"></script>
+
+
+    <script src="scripts/controller/mainController.js"></script>
+</body>
+
+</html>

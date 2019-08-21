@@ -1,0 +1,94 @@
+<div class="hide-default card center-div">
+    <!--Question Container-->
+    <div class="sq-container" error-tool-tip error-config="ErrorConfig">
+        <div ng-if="ShowQuestionNumber" class="sq-name table-cell">{{qObject.Name}}</div>
+        <div class="sq-text table-cell display-block">
+                <div><img image-on-load class="maxSize" ng-if="qObject.Properties.MediaPath && qObject.Properties.MediaType == '1' && (qObject.Properties.MediaPosition == 'up' ||  !qObject.Properties.MediaPosition) " src="{{qObject.Properties.MediaPath}}"/>
+                <audio controls class="maxSize" ng-if="qObject.Properties.MediaPath && qObject.Properties.MediaType == '2' && (qObject.Properties.MediaPosition == 'up' ||  !qObject.Properties.MediaPosition) " src="{{qObject.Properties.MediaPath}}">
+                        <source src="{{qObject.Properties.MediaPath | trusted}}" type="audio/mpeg">
+                </audio>
+                <video controls video-on-load class="maxSize" ng-if="qObject.Properties.MediaPath && qObject.Properties.MediaType == '3' && (qObject.Properties.MediaPosition == 'up' ||  !qObject.Properties.MediaPosition) ">
+                        <source src="{{qObject.Properties.MediaPath | trusted}}" type="video/mp4">
+                </video>
+            </div>
+        <div ng-if="qObject.Text[language] != undefined"  bind-html-compile="qObject.Text[language]"></div>
+        <div ng-if="qObject.Text[language] == undefined"  bind-html-compile="qObject.Text[DefaultLanguage]"></div>
+        <img image-on-load class="maxSize" ng-if="qObject.Properties.MediaPath && qObject.Properties.MediaType == '1' && qObject.Properties.MediaPosition == 'down'" src="{{qObject.Properties.MediaPath}}"/>
+        <audio controls class="maxSize" ng-if="qObject.Properties.MediaPath && qObject.Properties.MediaType == '2' && qObject.Properties.MediaPosition == 'down'" src="{{qObject.Properties.MediaPath}}">
+                <source src="{{qObject.Properties.MediaPath | trusted}}" type="audio/mpeg">
+        </audio>
+        <video controls video-on-load  ng-if="qObject.Properties.MediaPath && qObject.Properties.MediaType == '3' && qObject.Properties.MediaPosition == 'down'">
+                <source src="{{qObject.Properties.MediaPath | trusted}}" type="video/mp4">
+        </video>
+</div>
+    </div>
+    <!--Variable Container-->
+    <div class="sv-container">
+        <div>
+            <span style="color: red" ng-if="ShowMandatoryStar" class="font-75">* This field is mandatory</span>
+        </div>
+        <!-- LikeDislike -->
+        <survey-variable ng-repeat="item in qObject.QuestionLevelSequence" variable="qObject.Variables[item.ID]" ng-if="qObject.QuestionType == 22">
+            <div class="sg-container">
+                <div class="likeDislike">
+                    <div class="pos-rel" style="float:left;width:50%;text-align:right;padding-right:20px;">
+                        <input id="like" type="radio" name="like-dislike-rating" value="{{likeOptionCode}}" ng-model="SelectedValues.single" ng-click="SaveAnswer(SelectedValues.single)" ng-change="SaveAnswer(SelectedValues.single)"
+                        />
+                        <label id="1" for="like" class="focusable like-class">1</label>
+                    </div>
+                    <div class="pos-rel" style="float:left;width:48%;text-align:left">
+                        <input id="dislike" type="radio" name="like-dislike-rating" value="{{dislikeOptionCode}}" ng-model="SelectedValues.single" ng-change="SaveAnswer(SelectedValues.single)"
+                            ng-click="SaveAnswer(SelectedValues.single)" />
+                        <label id="2" for="dislike" class="focusable dislike-class">2</label>
+                    </div>
+
+                </div>
+            </div>
+        </survey-variable>
+        <!-- Stars -->
+        <survey-variable ng-repeat="item in qObject.QuestionLevelSequence" variable="qObject.Variables[item.ID]" properties="qObject.Properties" ng-if="qObject.QuestionType == 18"
+            class="pos-rel display-inline-block"  ng-class="{'large':qObject.Properties.ShapeSize == 'large','smallRating':qObject.Variables[qObject.QuestionLevelSequence[0].ID].VariableLevelSequence.length == '5' && qObject.Properties.ShapeSize == 'small','mediumRating':qObject.Properties.ShapeSize == 'medium' && qObject.Variables[qObject.QuestionLevelSequence[0].ID].VariableLevelSequence.length=='5'}">
+            <div class="display-inline-block">
+                <ul class="marginZero paddingZero display-inline-block" style="table-layout:fixed">
+                    <li ng-repeat="sequence in variable.VariableLevelSequence" class="ratingShape shape-large" style="display:table-cell" ng-class="{'smiley-big' :variable.VariableLevelSequence.length >= 8, 'smiley-small': variable.VariableLevelSequence.length < 8,'shape-small':properties.ShapeSize == 'small','shape-medium':properties.ShapeSize == 'medium'}">
+                       
+                            <span>
+                                    <survey-stars ng-click="SaveAnswer(variable.Options[sequence.ID].Code)" class="focusable pos-rel" ng-mouseenter="setHoverID(sequence.ID)"
+                                        ng-mouseleave="removeHoverID()" ng-if="!variable.Options[sequence.ID].IsExclusive" exclusive-id="{{RatingQuestionConfig.ExclusiveID}}"
+                                        option-id="{{sequence.ID}}" id="{{sequence.ID}}" style="background-color: transparent!important;margin-right:5px;"></survey-stars>
+                                </span>
+                    </li>
+                </ul>
+                 <!-- for showing labels -->
+            <div ng-if="RatingQuestionConfig.ShowLabels == 'true'" class="padding-5 rating-label">
+                <span class="text-left display-inline-block" style="width:31%">
+                    {{RatingQuestionConfig.LeftLabel}}
+                </span>
+                <span class="text-center display-inline-block" style="width:33%;display:inline-block!important">
+                    {{RatingQuestionConfig.MidLabel}}
+                </span>
+                <span class="text-right display-inline-block" style="width:31%">
+                    {{RatingQuestionConfig.RightLabel}}
+                </span>
+            </div>
+           <div class="clearfix"></div>
+            
+           
+            <!-- for showing no answer option -->
+            <div ng-if="RatingQuestionConfig.ExclusiveID" class="noAnswer">
+                <survey-option option-id="{{RatingQuestionConfig.ExclusiveID}}"></survey-option>
+            </div>
+        </div>
+        </survey-variable>
+        <!-- Smiley -->
+        <!-- <survey-variable ng-repeat="(qKey, value) in qObject.Variables" variable="value" ng-if="qObject.QuestionType == 17">
+            <div layout="row" class="smiley overflow-auto" style="display:flex">
+                <img class="focusable" ng-class="{'box-shadow' : IsSelected[$index]}" ng-click='SaveAnswer(variable.Options[sequence.ID].Code);ShowSelectedSmiley(variable.Options[sequence.ID].Code)'
+                    ng-repeat="sequence in variable.VariableLevelSequence" src="{{variable.Options[sequence.ID].Media['en-us']}}"
+                    id="{{variable.Options[sequence.ID].Code}}" style="width:40px;height:40px;margin-right:10px" />
+            </div>
+        </survey-variable> -->
+    </div>
+
+
+</div>

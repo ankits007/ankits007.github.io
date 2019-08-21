@@ -1,0 +1,39 @@
+<div class="card center-div">
+    <!--Question Container-->
+    <div class="sq-container" error-tool-tip error-config="ErrorConfig">
+        <div ng-if="ShowQuestionNumber" class="sq-name table-cell">{{qObject.Name}}</div>
+        <div class="sq-text table-cell display-block">
+                <div><img image-on-load class="maxSize" ng-if="qObject.Properties.MediaPath && qObject.Properties.MediaType == '1' && (qObject.Properties.MediaPosition == 'up' ||  !qObject.Properties.MediaPosition) " src="{{qObject.Properties.MediaPath}}"/>
+                <audio controls class="maxSize" ng-if="qObject.Properties.MediaPath && qObject.Properties.MediaType == '2' && (qObject.Properties.MediaPosition == 'up' ||  !qObject.Properties.MediaPosition) " src="{{qObject.Properties.MediaPath}}">
+                        <source src="{{qObject.Properties.MediaPath | trusted}}" type="audio/mpeg">
+                </audio>
+                <video controls video-on-load class="maxSize" ng-if="qObject.Properties.MediaPath && qObject.Properties.MediaType == '3' && (qObject.Properties.MediaPosition == 'up' ||  !qObject.Properties.MediaPosition) ">
+                        <source src="{{qObject.Properties.MediaPath | trusted}}" type="video/mp4">
+                </video>
+            </div>
+        <div ng-if="qObject.Text[language] != undefined"  bind-html-compile="qObject.Text[language]"></div>
+        <div ng-if="qObject.Text[language] == undefined"  bind-html-compile="qObject.Text[DefaultLanguage]"></div>
+        <img image-on-load class="maxSize" ng-if="qObject.Properties.MediaPath && qObject.Properties.MediaType == '1' && qObject.Properties.MediaPosition == 'down'" src="{{qObject.Properties.MediaPath}}"/>
+        <audio controls class="maxSize" ng-if="qObject.Properties.MediaPath && qObject.Properties.MediaType == '2' && qObject.Properties.MediaPosition == 'down'" src="{{qObject.Properties.MediaPath}}">
+                <source src="{{qObject.Properties.MediaPath | trusted}}" type="audio/mpeg">
+        </audio>
+        <video controls video-on-load  ng-if="qObject.Properties.MediaPath && qObject.Properties.MediaType == '3' && qObject.Properties.MediaPosition == 'down'">
+                <source src="{{qObject.Properties.MediaPath | trusted}}" type="video/mp4">
+        </video>
+</div>
+    </div>
+
+    <!--Variable Container-->
+    <div class="sv-container">
+           <div><span style="color: red" ng-if="ShowMandatoryStar && !AnswerInvalid" class="font-75"><b>*This field is mandatory</b></span></div>
+        <survey-variable ng-repeat="item in qObject.QuestionLevelSequence" variable="qObject.Variables[item.ID]">
+          
+            <div class="sg-container">
+                <input ng-if="!showFallBackDate" type="date" value="yyyy-MM-dd 00:00:00" step="1" ng-model="answerInput" ng-blur="OnBlurSave(answerInput)" class="focusableInput date padding-5">
+                <input ng-if="showFallBackDate" ng-model="dateAnswer.answerInput"  datetime-picker date-only date-format="yyyy-MM-dd" class="focusableInput darkBdr fallBackDate date padding-5" placeholder="MM / DD / YYYY"/>
+               <!-- <button ng-click="SaveAnswer()">ok</button>-->
+            </div>
+            <div class="error" ng-if="!valid">*Date out of range. Please select a date <span ng-if="localStartDateString"> after {{localStartDateString}}</span><span ng-if="localEndDateString"> and before {{localEndDateString}}</span></div>
+        </survey-variable>
+    </div>
+</div>

@@ -1,0 +1,56 @@
+<div class="hide-default card">
+    <!--Question Container-->
+    <div class="sq-container" error-tool-tip error-config="ErrorConfig">
+        <div class="sq-name table-cell" ng-if="ShowQuestionNumber">{{qObject.Name}}</div>
+        <div class="sq-text table-cell display-block" bind-html-compile="qObject.Text[language]"></div>
+        <div>
+            <span style="color: red" ng-if="ShowMandatoryStar" class="font-size">
+                <b>*</b>
+            </span>
+        </div>
+    </div>
+
+    <div class="sv-container">
+        <div ng-if="isMobileDevice">
+            <!-- web-->
+            <div ng-if="platform == 2">
+                <input type="file" id="file" class="button" name="file" /><br>
+                <button style="margin:10px" ng-click="SaveImage()" class="captureMediaBtn"  >Save File</button>
+            </div>
+            <!-- android-->
+            <button ng-if="platform == 1" ng-click="SaveImage()">Capture media</button>
+
+            <img ng-if="qObject.Properties.MediaType == 1 && receivedMedia" ng-src="{{receivedMedia}}" style="max-height:100%;max-width:100%"/>
+            <audio ng-if="qObject.Properties.MediaType == 2" controls ng-src="{{receivedMedia}}" type="audio/mp3"></audio>
+            <video ng-if="qObject.Properties.MediaType == 3" controls ng-src="{{receivedMedia}}"></video>
+        </div>
+        <div ng-if="!isMobileDevice">
+            <div ng-if="qObject.Properties.MediaType == 1">
+
+                <div ng-if="(!receivedMedia || editMode)" ng-click="SaveImage(ImageLocation)">
+                    <ng-camera output-height="160" output-width="213" viewer-height="320" viewer-width="426" image-format="jpeg" jpeg-quality="100"
+                        action-message="Take picture" snapshot="ImageLocation"></ng-camera>
+                </div>
+
+                <div ng-if="receivedMedia && !editMode" style="max-height:100%;max-width:100%">
+                    <img style="max-width:100%" ng-src="{{receivedMedia}}" /><br>
+                    <button ng-click="EditMedia()" class="captureMediaBtn">Edit media</button>
+                </div>
+            </div>
+            <span ng-if="qObject.Properties.MediaType != 1">
+                <div ng-if="qObject.Properties.MediaType == 2">
+
+                    <audio id="captureAudio" controls class="maxSize"></audio>
+                </div>
+                <div ng-if="qObject.Properties.MediaType == 3">
+                    <video id="captureVideo" controls class="maxSize"></video>
+                </div>
+                <button id="start-recording" ng-click="StartRecording();" class="captureMediaBtn">Start Recording</button>
+                <button id="stop-recording" disabled ng-click="StopRecording();" class="captureMediaBtn">{{StopButtonText}}</button>
+                <button id="play-recording" ng-disabled="!DataAvailable" ng-click="PlayRecording();" class="captureMediaBtn">Play</button>
+                <!--<button id="pause-recording" disabled ng-click="PauseRecoding()">Pause</button>
+                <button id="resume-recording" disabled ng-click="ResumeRecoding()">Resume</button>-->
+            </span>
+        </div>
+    </div>
+</div>

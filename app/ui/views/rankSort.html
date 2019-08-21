@@ -1,0 +1,36 @@
+<div>
+    <div layout="row">
+        <ul id="rankList" style="list-style: none;width: 45%; float: left" class="marginZero paddingZero" ng-init="BuildLists(0)"
+            ng-if="ShowList">
+            <li id="draggableItem" class="padding-5 font-size-75 border-all darkBdr dragHere full-width" ng-repeat="attribute in qObject.QuestionLevelSequence" style=" cursor: move; margin-top: 5px;border-radius:2px;"
+                bind-html-compile="qObject.Attributes[attribute.ID].Text[language]">
+                <span ng-if="qObject.Attributes[attribute.ID].Media[language]">
+                <img onError="this.onerror=null;this.src='./Project/app/Components/SE/assets/images/default.jpg';" ng-src="{{qObject.Attributes[attribute.ID].Media[language]}}?dt={{ticks}}" style="max-height:100px;max-width:100px;"/></span>
+                <!-- <i id="draggableIcon" class="fa fa-ellipsis-v" style="float:right; font-size: 17px; line-height: 12px;"></i> -->
+            </li>
+        </ul>
+        <div class="padding-5" style="width: 50%; float: right">
+            <span ng-if="NumberOfLists >= 1" class="padding-5 display-inline-block font-size-75 font-bold dragHere" bind-html-compile="GroupNames[0]"></span>
+            <div style="min-height: 200px;" id="rankList1" ng-init="BuildLists(1)" class="border-radius pos-rel border-all darkBdr">
+                <span ng-if="ShowList" class="font-size-75 pos-abs display-inline-block dragHere" style="top:40%;left:40%;">Drag Here</span></div>
+
+            <span ng-if="NumberOfLists >= 2" class="padding-5 display-inline-block font-size-75 font-bold dragHere" bind-html-compile="GroupNames[1]"></span>
+            <div ng-if="NumberOfLists >= 2" class="pos-rel border-all border-radius darkBdr" style="min-height: 200px;" id="rankList2" ng-init="BuildLists(2)">
+                <span ng-if="ShowList" class="font-size-75 pos-abs display-inline-block dragHere" style="top:40%;left:40%;">Drag Here</span></div>
+
+            <span ng-if="NumberOfLists >= 3" class="padding-5 display-inline-block font-size-75 font-bold dragHere" bind-html-compile="GroupNames[2]"></span>
+            <div ng-if="NumberOfLists >= 3" class="pos-rel border-all border-radius darkBdr" style="min-height: 200px;"  id="rankList3" ng-init="BuildLists(3)">
+                <span ng-if="ShowList" class="font-size-75 pos-abs display-inline-block dragHere" style="top:40%;left:40%;">Drag Here</span></div>
+
+            <span ng-if="NumberOfLists >= 4" class="padding-5 display-inline-block font-size-75 font-bold dragHere" bind-html-compile="GroupNames[3]"></span>
+            <div ng-if="NumberOfLists >= 4" class="pos-rel border-all border-radius darkBdr" style="min-height: 200px;" id="rankList4" ng-init="BuildLists(4)">
+                <span ng-if="ShowList" class="font-size-75 pos-abs display-inline-block dragHere" style="top:40%;left:40%;">Drag Here</span></div>
+
+            <span ng-if="NumberOfLists >= 5" class="padding-5 display-inline-block font-size-75 font-bold dragHere" bind-html-compile="GroupNames[4]"></span>
+            <div ng-if="NumberOfLists >= 5" class="pos-rel border-all border-radius darkBdr" style="min-height: 200px;" id="rankList5" ng-init="BuildLists(5)">
+                <span ng-if="ShowList" class="font-size-75 pos-abs display-inline-block dragHere" style="top:40%;left:40%;">Drag Here</span></div>
+        </div>
+        <div style="clear: both;"></div>
+
+    </div>
+</div>

@@ -1,0 +1,38 @@
+<div>
+    <table ng-if="ShowAs == 6" class="table">
+        <tr ng-repeat="attribute in qObject.QuestionLevelSequence" ng-init="rowIndex=$index;rankVariables=RankVariables;">
+            <td class="font-size font-bold text-right" style="border: none!important">
+                <span ng-if="qObject.Attributes[attribute.ID].Media[language]"><img ng-click="ExpandImage($event)" onError="this.onerror=null;this.src='./Project/app/Components/SE/assets/images/default.jpg';" ng-src="{{qObject.Attributes[attribute.ID].Media[language]}}" class="rank-img"/></span>
+                <span bind-html-compile="qObject.Attributes[attribute.ID].Text[language]" class="display-inline-block survey-option-text"></span></td>
+            <!--<span ng-if="qObject.Attributes[attribute.ID].Text[language] == undefined" bind-html-compile="qObject.Attributes[attribute.ID].Text[DefaultLanguage]"></span></td>-->
+
+            <td class="rank-number-cell text-left">
+
+                <survey-variable variable="NumericVariables[0][$index]">
+                    <input name min="1" class="input-txt rank-border darkBdr" type="number" ng-model="answerInput"
+                        ng-change="SaveRankAnswer(answerInput, $parent.rankVariables, variable)"
+                    />
+                </survey-variable>
+                <div><span style="color: red" ng-if="ErrorAttribute == attribute.ID" class="font-75"><b>*{{RankMessage}}</b></span></div>
+            </td>
+        </tr>
+    </table>
+    <div ng-if="ShowAs == 7" layout="row">
+        <ul id="rankList1" style="list-style: none;width: 100%; float: left;" class="marginZero paddingZero" ng-init="BuildLists(1)"
+            ng-if="AnsweredValues[0].length == 0">
+            <li id="draggableItem" class="padding-5 font-size pos-rel rank-text dragHere" ng-repeat="attribute in qObject.QuestionLevelSequence" style="cursor: move;border-radius:2px;">
+                <span ng-if="!qObject.Attributes[attribute.ID].Media[language]" bind-html-compile="qObject.Attributes[attribute.ID].Text[language]" class="font-size-75"></span>
+                <span ng-if="qObject.Attributes[attribute.ID].Media[language]"><img ng-src="{{qObject.Attributes[attribute.ID].Media[language]}}"  class="rank-img"/><img ng-click="ExpandImage($event)" src="assets/images/zoom-In.png" class="clickable" style="position:absolute;top:2px;left:2px;" /></span>
+                <span class='rank-position font-size-75'>{{$index + 1}}</span>
+            </li>
+        </ul>
+        <div id="rankList1" style="min-height: 200px;" ng-if="AnsweredValues[0].length > 0" ng-init="BuildLists(1)" class="pos-rel"></div>
+    </div>
+
+
+    <div id="ExpandedImageDiv" class="expand-image">
+        <span style="float: right; margin-right: 5px;" ng-click="RemoveExpandedImage()" class="clickable marginRight pull-right"><img src="assets/images/close.png" /></span>
+        <img src="{{ExpandedImageSource}}" class="rank-img-expand" />
+    </div>
+
+</div>

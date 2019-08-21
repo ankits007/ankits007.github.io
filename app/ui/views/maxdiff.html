@@ -1,0 +1,56 @@
+<table class="table max-diffTable">
+	<thead>
+		<tr ng-class="{'grid-var-header': $index == GridData.head.length-1}" ng-repeat="header in GridData.head">
+			<td ng-repeat="item in header" ng-class="{'group-seperator' : !$last}">
+				<div ng-switch="item.Type">
+					<div ng-switch-when="text" class="grid-cat-head font-bold">
+						<!--<span>{{item.Text}}</span>-->
+						<!--<span ng-if="item.Media"><img onError="this.onerror=null;this.src='./Project/app/Components/SE/assets/images/default.jpg';" ng-src="{{item.Media}}?dt={{ticks}}" style="max-height:100px;max-width:100px;"/></span>-->
+						<span bind-html-compile="item.Text"  class="survey-option-text font-size-Xlg">
+                   		</span>
+					</div>
+				</div>
+			</td>
+		</tr>
+	</thead>
+
+	<tbody>
+		<tr ng-repeat="row in GridData.row">
+			<td ng-class="{'attribute-indent': cell.InGroup, 'group-seperator': cell.IsLastVariable, 'grid-text-header': cell.Property == 'AttributeHeaders'}"
+			 ng-repeat="cell in row">
+				<div class="maxDiff-attr">
+					<span ng-if="qObject[cell.Property][cell.Id].Media[language]"><img onError="this.onerror=null;this.src='./Project/app/Components/SE/assets/images/default.jpg';" ng-src="{{qObject[cell.Property][cell.Id].Media[language]}}?dt={{ticks}}" style="max-height:100px;max-width:100px;"/></span>
+					<span ng-if="cell.Property == 'AttributeHeaders' || cell.Property == 'Attributes'" bind-html-compile="qObject[cell.Property][cell.Id].Text[language]" class="survey-option-text font-size-Xlg">
+                    </span>
+				</div>
+
+				<!--<div ng-if="cell.Property == 'none'">
+					<label class="form-radio display-block">
+                        <input type="radio" name="{{cell.parentId}}" ng-model="SelectedValues.single[cell.parentId]" ng-value="cell.Id" ng-click="SaveAnswer(cell.parentId, qObject.Variables[cell.parentId].Name, qObject.Variables[cell.parentId].VariableType, cell.Id)"/>
+                        <i class="form-icon input-button-center"></i> 
+                        <span >&nbsp;</span>
+                    </label>
+				</div>-->
+
+				<div ng-if="cell.Property == 'none'">
+					<label ng-if="!qObject.Variables[cell.parentId].Options[cell.Id].Media[language]" class="form-radio display-block">
+                        <input style="visibility: hidden;" type="radio" name="{{cell.parentId}}" ng-model="SelectedValues.single[cell.parentId]" ng-value="cell.Id" ng-change="SaveAnswer(cell.parentId, qObject.Variables[cell.parentId].Name, qObject.Variables[cell.parentId].VariableType, cell.Id)"/>
+                        <i class="form-icon input-button-center"></i> 
+                        <span >&nbsp;</span>
+                    </label>
+
+					<label ng-if="qObject.Variables[cell.parentId].Options[cell.Id].Media[language]" class="imageInput">
+						<input type="radio" name="{{cell.parentId}}" ng-model="SelectedValues.single[cell.parentId]" ng-value="cell.Id" ng-change="SaveAnswer(cell.parentId, qObject.Variables[cell.parentId].Name, qObject.Variables[cell.parentId].VariableType, cell.Id)"/>
+					
+						<div class="input-img-mask CaptureImg">
+							<img ng-src="{{qObject.Variables[cell.parentId].Options[cell.Id].Media[language]}}?dt={{ticks}}" style="max-height:70px;max-width:70px;"/>
+							<div class="image-select-ovelay"></div>
+						</div>
+
+						
+					</label>
+				</div>
+			</td>
+		</tr>
+	</tbody>
+</table>
